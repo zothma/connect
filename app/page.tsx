@@ -1,6 +1,9 @@
 "use client"
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import FacebookSignIn from "@/components/auth/FacebookSignIn";
+import GoogleSignIn from "@/components/auth/GoogleSignIn";
+import LinkedInSignIn from "@/components/auth/LinkedInSignIn";
+import { signOut, useSession } from "next-auth/react";
 
 export default function SignInPage() {
   const { data: session } = useSession()
@@ -15,7 +18,9 @@ export default function SignInPage() {
     return (
       <>
         Non connecté. <br />
-        <button onClick={() => signIn("google")}>Se connecter avec Google</button>
+        <GoogleSignIn /> <br />
+        <LinkedInSignIn /> <br />
+        <FacebookSignIn />
       </>
     )
   }
