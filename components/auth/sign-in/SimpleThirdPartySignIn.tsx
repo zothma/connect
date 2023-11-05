@@ -11,9 +11,12 @@ type Props = {
 export default function SimpleThirdPartySignIn({ name, onClick, className, icon }: Props) {
   return <Button
     onClick={onClick ?? (() => { alert("Pas encore implémenté.") })}
-    className={className}
+    className={"grow shrink basis-0 " + (className ?? "")}
     icon={icon}
   >
-    Se connecter avec {name}
+    <span>
+      <span className="lg:hidden">Se connecter avec </span>
+      {name}
+    </span>
   </Button>
 }

@@ -11,7 +11,7 @@ type Props = {
 export default function Button({ children, className, icon, onClick }: Props) {
   return (
     <button
-      className={'flex gap-3 justify-center min-h-[44px] items-center rounded-xl px-5 py-1 text-left ' + (className ?? '')}
+      className={'ease-in-out transition-colors flex gap-3 justify-center min-h-[44px] items-center rounded-xl px-5 py-1 text-left ' + (className ?? '')}
       onClick={onClick}
     >
       {(icon) ? <Image src={icon} alt="Icon" width={18} height={18} /> : <></>}
