@@ -22,11 +22,11 @@ export default function SignInPage() {
         <div className="absolute h-full w-full bg-black opacity-20"></div>
 
         <div className="relative w-full h-[100dvh] flex flex-col sm:justify-center sm:items-center lg:flex-row">
-          <div className="grow shrink flex items-center justify-center sm:absolute sm:items-start sm:justify-start sm:w-full sm:h-full lg:static lg:w-[50%]">
+          <div className="grow shrink flex items-center justify-center sm:absolute sm:z-0 sm:items-start sm:justify-start sm:w-full sm:h-full lg:static lg:w-[50%]">
             <Logo className="sm:m-7" />
           </div>
 
-          <div className="flex items-center justify-center px-10 py-12 bg-white rounded-t-[34px] sm:px-14 sm:w-[640px] sm:rounded-b-[34px] lg:w-[50%] lg:rounded-none lg:h-full">
+          <div className="flex items-center justify-center px-10 py-12 bg-white rounded-t-[34px] sm:relative sm:z-10 sm:px-14 sm:w-[640px] sm:rounded-b-[34px] lg:w-[50%] lg:rounded-none lg:h-full">
             <div className="flex flex-col gap-5 w-full max-w-xl sm:gap-6">
               <h1 className="text-2xl font-semibold sm:text-4xl sm:mb-3">Connexion</h1>
 
