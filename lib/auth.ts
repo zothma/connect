@@ -1,6 +1,8 @@
 import { NextAuthOptions } from 'next-auth'
 
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
+import prisma from './prisma'
 
 function resizeGoogleImage(url: string): string {
   const noOptionsUrl = url.split('=')[0]
@@ -9,6 +11,7 @@ function resizeGoogleImage(url: string): string {
 }
 
 export const authConfig: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -25,6 +28,9 @@ export const authConfig: NextAuthOptions = {
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
   pages: {
     signIn: '/auth/login',
   },
