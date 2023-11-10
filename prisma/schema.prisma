@@ -35,7 +35,10 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  accounts      Account[]
+
+  accounts  Account[]
+  projects  Project[]
+  bookmarks Project[] @relation("bookmark")
 
   @@map("user")
 }
@@ -47,4 +50,43 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtoken")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  color       String
+  domainId    Int
+  typeId      Int
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  type   ProfessionalBridge @relation(fields: [typeId], references: [id])
+  owner  User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  domain RomeDomain         @relation(fields: [domainId], references: [id])
+
+  bookmarkedBy User[] @relation("bookmark")
+
+  @@map("project")
+}
+
+model ProfessionalBridge {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String @db.Text
+
+  projects Project[]
+
+  @@map("professional_bridge")
+}
+
+model RomeDomain {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  projects Project[]
+
+  @@map("rome_domain")
 }
