@@ -8,7 +8,7 @@ export default function Identity() {
   if (session) {
     return (
       <span>
-        Connecté(e) en tant que <strong>{session.user?.email ?? <em>Aucun e-mail fourni</em>}</strong>
+        Connecté(e) en tant que <strong>{session.user?.first_name} {session.user?.last_name?.toUpperCase()}</strong>
       </span>
     )
   } else {
