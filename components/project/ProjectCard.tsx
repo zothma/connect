@@ -1,17 +1,8 @@
+import { ProjectWithCompleteData } from "@/types/models";
 import ProjectTypeBadge from "./ProjectTypeBadge"
-import { Prisma } from "@prisma/client";
 import ProjectBookmark from "./ProjetBookmark";
 import UserImage from "../user/UserImage";
 
-const projectWithCompleteData = Prisma.validator<Prisma.ProjectDefaultArgs>()({
-  include: {
-    domain: true,
-    type: true,
-    owner: true,
-  },
-})
-
-type ProjectWithCompleteData = Prisma.ProjectGetPayload<typeof projectWithCompleteData>
 type Props = {
   project: ProjectWithCompleteData,
   bookmarked: boolean,

@@ -1,17 +1,5 @@
-import { Prisma } from '@prisma/client'
+import { ProjectWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
-
-const projectWithCompleteData = Prisma.validator<Prisma.ProjectDefaultArgs>()({
-  include: {
-    domain: true,
-    type: true,
-    owner: true,
-  },
-})
-
-type ProjectWithCompleteData = Prisma.ProjectGetPayload<
-  typeof projectWithCompleteData
->
 
 /**
  * Hook en charge de récupérer les projets depuis l'API
