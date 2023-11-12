@@ -21,19 +21,21 @@ type ProjectWithCompleteData = Prisma.ProjectGetPayload<
 export default function useProjects(
   fetchUrl: string,
   initialFetchSize = 12
-): [ProjectWithCompleteData[], (size?: number) => void] {
+): [ProjectWithCompleteData[], number, (size?: number) => void] {
   const [projects, setProjects] = useState([] as ProjectWithCompleteData[])
   const [cursor, setCursor] = useState('')
+  const [loading, setLoading] = useState(initialFetchSize)
 
   useEffect(() => {
     const url = new URL(fetchUrl)
     url.searchParams.set('size', initialFetchSize.toString())
 
-    fetch(fetchUrl)
+    fetch(url.toString())
       .then((res) => res.json())
       .then((data) => {
         setCursor(data.cursor)
         setProjects(data.data)
+        setLoading(0)
       })
   }, [])
 
@@ -48,13 +50,15 @@ export default function useProjects(
     url.searchParams.set('cursor', cursor)
     url.searchParams.set('size', size.toString())
 
+    setLoading(size)
     fetch(url.toString())
       .then((res) => res.json())
       .then((data) => {
         setCursor(data.cursor)
         setProjects([...projects, ...data.data])
+        setLoading(0)
       })
   }
 
-  return [projects, loadMore]
+  return [projects, loading, loadMore]
 }
