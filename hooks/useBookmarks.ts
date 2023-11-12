@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from '@/lib/async'
 import { ProjectWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
 
@@ -8,21 +9,25 @@ export default function useBookmarks(): [
   const [bookmarks, setBookmarks] = useState([] as ProjectWithCompleteData[])
 
   useEffect(() => {
-    fetch('/api/bookmark')
+    fetchWithTimeout('/api/bookmark')
       .then((res) => res.json())
       .then(setBookmarks)
   }, [])
 
   const addBookmark = (project: ProjectWithCompleteData) => {
-    fetch(`/api/bookmark/${project.id}`, { method: 'POST' }).then((res) => {
-      if (res.ok) setBookmarks([project, ...bookmarks])
-    })
+    fetchWithTimeout(`/api/bookmark/${project.id}`, { method: 'POST' }).then(
+      (res) => {
+        if (res.ok) setBookmarks([project, ...bookmarks])
+      }
+    )
   }
 
   const removeBookmark = (project: ProjectWithCompleteData) => {
-    fetch(`/api/bookmark/${project.id}`, { method: 'DELETE' }).then((res) => {
-      if (res.ok) setBookmarks(bookmarks.filter((b) => b.id != project.id))
-    })
+    fetchWithTimeout(`/api/bookmark/${project.id}`, { method: 'DELETE' }).then(
+      (res) => {
+        if (res.ok) setBookmarks(bookmarks.filter((b) => b.id != project.id))
+      }
+    )
   }
 
   const setBookmarkStatus = (
