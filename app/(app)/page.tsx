@@ -1,6 +1,5 @@
-import Identity from "@/components/auth/Identity";
 import SignOut from "@/components/auth/SignOut";
-import ProjectCard from "@/components/project/ProjectCard";
+import ProjectContainer from "@/components/project/ProjectContainer";
 import prisma from "@/lib/prisma";
 
 export default async function Home() {
@@ -15,12 +14,7 @@ export default async function Home() {
   })
 
   return (
-    <div className="flex flex-wrap gap-x-10 gap-y-6 justify-stretch">
-      {projects.map(project => (
-        <div className="grow shrink min-w-[330px] basis-0">
-          <ProjectCard project={project} key={project.id} />
-        </div>
-      ))}
-    </div>
+    <ProjectContainer projects={projects} />
+    // <SignOut />
   )
 }

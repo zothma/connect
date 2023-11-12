@@ -13,16 +13,18 @@ const projectWithCompleteData = Prisma.validator<Prisma.ProjectDefaultArgs>()({
 
 type ProjectWithCompleteData = Prisma.ProjectGetPayload<typeof projectWithCompleteData>
 type Props = {
-  project: ProjectWithCompleteData
+  project: ProjectWithCompleteData,
+  bookmarked: boolean,
+  onBookmark: (value: boolean) => void
 }
 
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project, bookmarked, onBookmark }: Props) {
   return (
     <div className="flex flex-col h-[310px] border-[#C9C9C9] border-2 rounded-[30px] p-1">
       <div className="flex flex-col justify-between grow shrink rounded-[26px] p-4" style={{ backgroundColor: project.color }}>
         <div className="flex justify-between">
           <ProjectTypeBadge type={project.type} />
-          <ProjectBookmark />
+          <ProjectBookmark bookmarked={bookmarked} onBookmark={onBookmark} />
         </div>
         <div className="flex flex-col gap-4">
           <p className="text-2xl">{project.name}</p>
