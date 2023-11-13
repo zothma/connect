@@ -2,7 +2,7 @@
 
 import { ProjectWithCompleteData } from "@/types/models";
 import ProjectTypeBadge from "./ProjectTypeBadge"
-import ProjectBookmark from "./ProjetBookmark";
+import ProjectBookmark from "./ProjectBookmark";
 import UserImage from "../user/UserImage";
 import Link from "next/link";
 import styles from "./project-card.module.css"
