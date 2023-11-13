@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import Link from "next/link";
 
 const professionalBridge = Prisma.validator<Prisma.ProfessionalBridgeDefaultArgs>()({})
 
@@ -9,8 +10,10 @@ type Props = {
 
 export default function ProjectTypeBadge({ type }: Props) {
   return (
-    <div className="bg-white rounded-full px-5 py-2 font-bold">
-      {type.name}
-    </div>
+    <Link href="#passerelle" className="block active:scale-95 transition-transform">
+      <span className="block bg-white rounded-full px-5 py-2 font-bold">
+        {type.name}
+      </span>
+    </Link>
   )
 }
