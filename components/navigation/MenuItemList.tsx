@@ -9,5 +9,5 @@ type Props = {
 
 export default function MenuItemList({ menus }: Props) {
   const pathname = usePathname()
-  return menus.map((props) => <MenuItem selected={pathname == props.href} {...props} />)
+  return menus.map((props) => <MenuItem selected={pathname == props.href} key={props.href.toString()} {...props} />)
 }

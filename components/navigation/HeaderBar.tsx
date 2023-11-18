@@ -6,9 +6,9 @@ import MenuItemList from "./MenuItemList"
 export default function HeaderBar() {
   const menus: React.ComponentPropsWithoutRef<typeof MenuItemList>["menus"] = [
     { href: "/", icon: "home", name: "Accueil" },
-    { href: "#", icon: "compass", name: "Découvrir" },
-    { href: "#", icon: "search", name: "Rechercher" },
-    { href: "#", icon: "chat", name: "Discuter" },
+    { href: "/discover", icon: "compass", name: "Découvrir" },
+    { href: "/search", icon: "search", name: "Rechercher" },
+    { href: "/chat", icon: "chat", name: "Discuter" },
   ]
 
   return (
