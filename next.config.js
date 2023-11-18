@@ -5,6 +5,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'api.multiavatar.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.googleusercontent.com'
       }
     ]
   }
