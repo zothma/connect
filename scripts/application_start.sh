@@ -2,5 +2,5 @@
 cd /home/admin/connect
 git pull origin main
 npm install
-npm build
+npm run build
 pm2 restart connect_next
