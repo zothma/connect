@@ -1,3 +1,4 @@
+import { LoremIpsum } from 'lorem-ipsum'
 import prisma from '../lib/prisma'
 
 function arrayRandom<Type>(array: Array<Type>): Type {
@@ -7,6 +8,17 @@ function arrayRandom<Type>(array: Array<Type>): Type {
 function arrayRange(size: number): Array<number> {
   return Array.from(Array(size).keys())
 }
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    min: 4,
+    max: 8,
+  },
+  wordsPerSentence: {
+    min: 4,
+    max: 16,
+  },
+})
 
 async function main() {
   // Création des passerelles professionnelles (Alternance, Stage...)
@@ -50,16 +62,15 @@ async function main() {
 
   // Création des utilisateurs et de leurs projets
   const projectColors = [
-    '#FBF8CC',
-    '#FDE4CF',
-    '#FFCFD2',
-    '#F1C0E8',
-    '#CFBAF0',
-    '#A3C4F3',
-    '#90DBF4',
-    '#8EECF5',
-    '#98F5E1',
-    '#B9FBC0',
+    '#EAE4E9',
+    '#FFF1E6',
+    '#FDE2E4',
+    '#FAD2E1',
+    '#E2ECE9',
+    '#BEE1E6',
+    '#F0EFEB',
+    '#DFE7FD',
+    '#CDDAFD',
   ]
 
   const userNames = [
@@ -76,7 +87,7 @@ async function main() {
       const [firstName, lastName] = name.split(' ')
       const fullName = `${firstName} ${lastName}`
       const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@email.com`
-      const image = encodeURI(`https://api.multiavatar.com/${fullName}`)
+      const image = encodeURI(`https://api.multiavatar.com/${fullName}.svg`)
 
       return prisma.user.upsert({
         where: { email },
@@ -89,8 +100,8 @@ async function main() {
           image,
           projects: {
             create: arrayRange(20).map((i) => ({
-              name: `Projet ${lastName} ${i}`,
-              description: `Description ${i}`,
+              name: `Projet ${firstName[0]}.${lastName} ${i}`,
+              description: lorem.generateSentences(5),
               color: arrayRandom(projectColors),
               domainId: arrayRandom(romeDomains).id,
               typeId: arrayRandom(professionalBridges).id,
