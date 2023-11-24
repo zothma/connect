@@ -2,6 +2,11 @@ import { fetchWithTimeout } from '@/lib/async'
 import { ProjectWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
 
+/**
+ * Hook allowing to fetch and manipulate (add and remove) bookmarks.
+ * Returns the list of bookmarked projects and a callback for manipulating
+ * those bookmarks.
+ */
 export default function useBookmarks(): [
   ProjectWithCompleteData[],
   (project: ProjectWithCompleteData, status: boolean) => void
