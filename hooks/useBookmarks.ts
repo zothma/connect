@@ -2,6 +2,26 @@ import { fetchWithTimeout } from '@/lib/async'
 import { ProjectWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
 
+type ProjectList = ProjectWithCompleteData[]
+type ApiCallCallback = () => void
+type ApiCallMethod = 'POST' | 'DELETE'
+
+/**
+ * Wrapper around the custom fetch to make a bookmark API call
+ * @param project
+ * @param method
+ * @param callback
+ */
+async function makeApiCall(
+  project: ProjectWithCompleteData,
+  method: ApiCallMethod,
+  callback: ApiCallCallback
+) {
+  const url = `/api/bookmark/${project.id}`
+  const result = await fetchWithTimeout(url, { method })
+  if (result.ok) callback()
+}
+
 /**
  * Hook allowing to fetch and manipulate (add and remove) bookmarks.
  * Returns the list of bookmarked projects and a callback for manipulating
@@ -11,28 +31,35 @@ export default function useBookmarks(): [
   ProjectWithCompleteData[],
   (project: ProjectWithCompleteData, status: boolean) => void
 ] {
-  const [bookmarks, setBookmarks] = useState([] as ProjectWithCompleteData[])
+  const [bookmarks, setBookmarks] = useState<ProjectList>([])
+
+  /**
+   * Fetches bookmarked projects
+   */
+  const fetchData = async () => {
+    try {
+      const result = await fetchWithTimeout('/api/bookmark')
+      const data = await result.json()
+      setBookmarks(data)
+    } catch (error) {
+      console.error('Error fetching data: ', error)
+    }
+  }
 
   useEffect(() => {
-    fetchWithTimeout('/api/bookmark')
-      .then((res) => res.json())
-      .then(setBookmarks)
+    fetchData()
   }, [])
 
   const addBookmark = (project: ProjectWithCompleteData) => {
-    fetchWithTimeout(`/api/bookmark/${project.id}`, { method: 'POST' }).then(
-      (res) => {
-        if (res.ok) setBookmarks([project, ...bookmarks])
-      }
-    )
+    makeApiCall(project, 'POST', () => {
+      setBookmarks((prev) => [...prev, project])
+    })
   }
 
   const removeBookmark = (project: ProjectWithCompleteData) => {
-    fetchWithTimeout(`/api/bookmark/${project.id}`, { method: 'DELETE' }).then(
-      (res) => {
-        if (res.ok) setBookmarks(bookmarks.filter((b) => b.id != project.id))
-      }
-    )
+    makeApiCall(project, 'DELETE', () => {
+      setBookmarks((prev) => prev.filter((b) => b.id != project.id))
+    })
   }
 
   const setBookmarkStatus = (
