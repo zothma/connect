@@ -18,7 +18,7 @@ export default function ProjectContainer({ fetchUrl }: Props) {
     <div className="my-5">
       <div className="flex flex-wrap gap-x-10 gap-y-6 justify-stretch">
         {/* Rendu des projets déjà chargés */}
-        {projects.map((project, index) => {
+        {projects?.map((project, index) => {
           const bookmarked = bookmarks.map(b => b.id).includes(project.id)
           return (
             <div className="grow shrink min-w-[330px] basis-0" key={index}>
@@ -32,7 +32,7 @@ export default function ProjectContainer({ fetchUrl }: Props) {
 
         {/* Affichage des squelettes en l'attente du chargement des projets */}
         {Array(amountLoading).fill(0).map((_, index) => (
-          <div className="grow shrink min-w-[330px] basis-0" key={projects.length + index}>
+          <div className="grow shrink min-w-[330px] basis-0" key={(projects?.length ?? 0) + index}>
             <ProjectCardSkeleton />
           </div>
         ))}

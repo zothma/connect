@@ -1,5 +1,12 @@
+import { fetchWithTimeout } from '@/lib/async'
 import { ProjectWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
+
+type ProjectList = ProjectWithCompleteData[] | null
+type Amount = number
+type LoadMoreCallback = (size?: Amount) => void
+
+type UseProjectsReturnType = [ProjectList, Amount, LoadMoreCallback]
 
 /**
  * Hook dynamically fetching projects from the API.
@@ -9,26 +16,33 @@ import { useEffect, useState } from 'react'
  * @param fetchUrl URL of the API, containing needed options
  * @param initialFetchSize Amount of project to initially load
  */
-export default function useProjects(
+function useProjects(
   fetchUrl: string,
-  initialFetchSize = 12
-): [ProjectWithCompleteData[], number, (size?: number) => void] {
-  const [projects, setProjects] = useState([] as ProjectWithCompleteData[])
+  initialFetchSize: Amount = 12
+): UseProjectsReturnType {
+  const [projects, setProjects] = useState<ProjectList>(null)
   const [cursor, setCursor] = useState('')
   const [loading, setLoading] = useState(initialFetchSize)
+
+  const fetchData = async (url: string) => {
+    try {
+      const result = await fetchWithTimeout(url)
+      const data = await result.json()
+
+      setCursor(data.cursor)
+      setProjects((prev) => (prev ? [...prev, ...data.data] : data.data))
+      setLoading(0)
+    } catch (error) {
+      console.error('Error fetching data: ', error)
+      setLoading(0)
+    }
+  }
 
   // Fetch the initial amount
   useEffect(() => {
     const url = new URL(fetchUrl)
     url.searchParams.set('size', initialFetchSize.toString())
-
-    fetch(url.toString())
-      .then((result) => result.json())
-      .then((data) => {
-        setCursor(data.cursor)
-        setProjects(data.data)
-        setLoading(0)
-      })
+    fetchData(url.toString())
   }, [])
 
   /**
@@ -37,21 +51,15 @@ export default function useProjects(
    */
   const loadMore = (size = initialFetchSize) => {
     // Stop if we know there is nothing left to fetch
-    if (cursor == '') return
+    if (!cursor) return
 
     const url = new URL(fetchUrl)
     url.searchParams.set('cursor', cursor)
     url.searchParams.set('size', size.toString())
-
-    setLoading(size)
-    fetch(url.toString())
-      .then((res) => res.json())
-      .then((data) => {
-        setCursor(data.cursor)
-        setProjects([...projects, ...data.data])
-        setLoading(0)
-      })
+    fetchData(url.toString())
   }
 
   return [projects, loading, loadMore]
 }
+
+export default useProjects
