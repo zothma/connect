@@ -1,5 +1,7 @@
 import { fetchWithTimeout } from '@/lib/async'
+import { ApiProjectReturnType } from '@/types/api'
 import { ProjectWithCompleteData } from '@/types/models'
+import { Project } from '@prisma/client'
 import { useEffect, useState } from 'react'
 
 type ProjectList = ProjectWithCompleteData[] | null
@@ -21,13 +23,13 @@ function useProjects(
   initialFetchSize: Amount = 12
 ): UseProjectsReturnType {
   const [projects, setProjects] = useState<ProjectList>(null)
-  const [cursor, setCursor] = useState('')
+  const [cursor, setCursor] = useState<Project['id']>('')
   const [loading, setLoading] = useState(initialFetchSize)
 
   const fetchData = async (url: string) => {
     try {
       const result = await fetchWithTimeout(url)
-      const data = await result.json()
+      const data: ApiProjectReturnType = await result.json()
 
       setCursor(data.cursor)
       setProjects((prev) => (prev ? [...prev, ...data.data] : data.data))

@@ -25,8 +25,8 @@ export default async function handler(
       },
     })
 
-    return res.status(200).json(bookmarks)
+    return res.status(200).json({ data: bookmarks })
   } else {
-    return res.status(403).json({ message: 'Interdit' })
+    return res.status(401).json({ message: 'Unauthorized' })
   }
 }

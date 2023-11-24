@@ -1,4 +1,5 @@
 import { fetchWithTimeout } from '@/lib/async'
+import { ApiBookmarkReturnType } from '@/types/api'
 import { ProjectWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
 
@@ -43,8 +44,8 @@ export default function useBookmarks(): [
   const fetchData = async () => {
     try {
       const result = await fetchWithTimeout('/api/bookmark')
-      const data = await result.json()
-      setBookmarks(data)
+      const data: ApiBookmarkReturnType = await result.json()
+      setBookmarks(data.data)
     } catch (error) {
       console.error('Error fetching data: ', error)
     }
