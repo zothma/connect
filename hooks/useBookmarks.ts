@@ -17,9 +17,13 @@ async function makeApiCall(
   method: ApiCallMethod,
   callback: ApiCallCallback
 ) {
-  const url = `/api/bookmark/${project.id}`
-  const result = await fetchWithTimeout(url, { method })
-  if (result.ok) callback()
+  try {
+    const url = `/api/bookmark/${project.id}`
+    const result = await fetchWithTimeout(url, { method })
+    if (result.ok) callback()
+  } catch (error) {
+    console.error('Error fetching data: ', error)
+  }
 }
 
 /**
