@@ -7,6 +7,13 @@ type ReactRef<T> = React.RefObject<T>
 type GsapTimeline = gsap.core.Timeline
 type ReturnType<T extends HTMLElement> = [ReactRef<T>, GsapTimeline | undefined]
 
+/**
+ * Hook generating a GSAP Timeline for adding animations to it.
+ * Returns a React ref and the timeline itself.
+ *
+ * @param timelineParams Options sent to GSAP during the instantiation the timeline
+ * @returns
+ */
 export default function useGsapTimeline<T extends HTMLElement>(
   timelineParams: TimelineParams
 ): ReturnType<T> {
