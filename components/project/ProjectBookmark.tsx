@@ -1,7 +1,8 @@
 import Image from "next/image";
-import bookmarkFill from '@/public/icons/bookmark-fill.svg'
-import bookmarkLine from '@/public/icons/bookmark-line.svg'
+import BookmarkFillImage from '@icons/bookmark-fill.svg'
+import BookmarkLineImage from '@icons/bookmark-line.svg'
 import ButtonImage from "../common/ButtonImage";
+import React from "react";
 
 type Props = {
   bookmarked?: boolean,
@@ -9,7 +10,11 @@ type Props = {
 }
 
 export default function ProjectBookmark({ bookmarked = false, onBookmark }: Props) {
+
   return (
-    <ButtonImage image={bookmarked ? bookmarkFill : bookmarkLine} onClick={() => onBookmark(!bookmarked)} />
+    <ButtonImage
+      icon={bookmarked ? BookmarkFillImage : BookmarkLineImage}
+      onClick={() => onBookmark(!bookmarked)}
+      aria-label="Ajouter aux favoris" />
   )
 }
