@@ -1,4 +1,5 @@
 import HeaderBar from "@/components/navigation/HeaderBar";
+import ToastContainer from "@/components/toast/ToastContainer";
 import React from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -9,6 +10,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="mx-auto w-[95%] max-w-7xl h-full">
           {children}
         </div>
+        <ToastContainer />
       </div>
     </>
   )
