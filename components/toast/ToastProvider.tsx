@@ -22,8 +22,12 @@ export function ToastProvider({ children }: Props) {
 
   const getToasts = () => toasts
 
+  const removeToast = (id: ToastData["id"]) => {
+    setToasts((prev) => prev.filter(toast => toast.id != id))
+  }
+
   return (
-    <ToastContext.Provider value={{ toast: addToast, getToasts }}>
+    <ToastContext.Provider value={{ toast: addToast, getToasts, removeToast }}>
       {children}
     </ToastContext.Provider>
   )

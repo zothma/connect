@@ -11,6 +11,9 @@ const config: Config = {
       backgroundImage: {
         'background-login': 'url(/images/background-login.jpg)',
       },
+      dropShadow: {
+        box: '3px 3px 15px rgba(0, 0, 0, 0.10)',
+      },
     },
   },
   plugins: [],

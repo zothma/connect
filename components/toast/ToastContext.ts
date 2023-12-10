@@ -8,6 +8,7 @@ type ContextType =
   | {
       toast: ToastFunction
       getToasts: () => ToastData[]
+      removeToast: (id: ToastData['id']) => void
     }
   | undefined
 
