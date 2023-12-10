@@ -7,12 +7,19 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    colors: {
+      darker: '#372D25',
+      dark: '#46392F',
+      grey: '#ACA5A0',
+      lightgrey: '#CDC9C6',
+      white: '#FFFFFF',
+    },
     extend: {
       backgroundImage: {
         'background-login': 'url(/images/background-login.jpg)',
       },
       dropShadow: {
-        box: '3px 3px 15px rgba(0, 0, 0, 0.10)',
+        box: '3px 3px 15px rgba(0, 0, 0, 0.15)',
       },
     },
   },
