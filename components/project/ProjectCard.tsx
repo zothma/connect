@@ -7,6 +7,7 @@ import UserImage from "../user/UserImage";
 import Link from "next/link";
 import styles from "./project-card.module.css"
 import { useState } from "react";
+import { raleway } from "@/lib/fonts";
 
 type Props = {
   project: ProjectWithCompleteData,
@@ -32,7 +33,7 @@ export default function ProjectCard({ project, bookmarked, onBookmark }: Props) 
           <p className="text-2xl">
             <Link
               href="#card"
-              className={styles.enlarged_link}
+              className={styles.enlarged_link + " " + raleway.className}
               onMouseDown={() => setActive(true)}
               onMouseLeave={() => setActive(false)}
               onMouseUp={() => setActive(false)}
