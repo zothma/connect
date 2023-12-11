@@ -19,18 +19,19 @@ export default function ProjectCard({ project, bookmarked, onBookmark }: Props) 
   const [active, setActive] = useState(false);
 
   return (
-    <div className={"flex flex-col h-[310px] border-[#C9C9C9] border-2 rounded-[30px] p-1 transition-transform " + (active && 'scale-95')}>
-      <div className="relative flex flex-col justify-between grow shrink rounded-[26px] p-4" style={{ backgroundColor: project.color }}>
-        <div className="flex justify-between">
-          <div className="relative z-10">
-            <ProjectTypeBadge type={project.type} />
-          </div>
-          <div className="relative z-10">
-            <ProjectBookmark bookmarked={bookmarked} onBookmark={onBookmark} />
-          </div>
+    <div
+      className={"h-80 min-w-[320px] transition-transform rounded-[30px] drop-shadow-box " + (active && 'scale-95')}
+      style={{ backgroundColor: project.color }}>
+
+      {/* Flex block */}
+      <div className="h-full w-full flex flex-col gap-4 p-5">
+        <div className="relative z-10 w-full flex justify-between">
+          <ProjectTypeBadge type={project.type} />
+          <ProjectBookmark bookmarked={bookmarked} onBookmark={onBookmark} />
         </div>
-        <div className="flex flex-col gap-4">
-          <p className="text-2xl">
+
+        <div className="flex flex-col gap-4 grow">
+          <p className="text-2xl font-semibold mt-2">
             <Link
               href="#card"
               className={styles.enlarged_link + " " + raleway.className}
@@ -44,18 +45,18 @@ export default function ProjectCard({ project, bookmarked, onBookmark }: Props) 
           <p className="text-lg">{project.domain.name}</p>
           <p className="truncate-2">{project.description}</p>
         </div>
+
+        <Link href="#user" className="relative z-10 active:scale-95 transition-transform self-start bg-white rounded-[30px]">
+          <span className="flex h-full gap-3 pt-2 pb-2 pl-2 pr-5">
+            <UserImage user={project.owner} height={40} width={40} />
+            <span className="flex flex-col h-full">
+              <span className="text font-bold">{project.owner.first_name} {project.owner.last_name?.toLocaleUpperCase()}</span>
+              <span className="text-sm -mt-1">Travaille à ...</span>
+            </span>
+          </span>
+        </Link>
       </div>
-      <div className="relative flex mx-4 my-3 gap-4">
-        <UserImage user={project.owner} height={40} width={40} />
-        <div>
-          <p className="font-bold">
-            <Link href="#user" className={styles.enlarged_link}>
-              {project.owner.first_name} {project.owner.last_name}
-            </Link>
-          </p>
-          <p className="text-sm text-neutral-500 -mt-[2px]">Travaille à </p>
-        </div>
-      </div>
+
     </div>
   )
 }

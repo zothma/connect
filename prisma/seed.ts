@@ -62,15 +62,16 @@ async function main() {
 
   // Création des utilisateurs et de leurs projets
   const projectColors = [
-    '#EAE4E9',
-    '#FFF1E6',
-    '#FDE2E4',
-    '#FAD2E1',
-    '#E2ECE9',
-    '#BEE1E6',
-    '#F0EFEB',
-    '#DFE7FD',
-    '#CDDAFD',
+    'hsl(56, 85%, 90%)',
+    'hsl(27, 92%, 90%)',
+    'hsl(356, 100%, 90%)',
+    'hsl(311, 64%, 90%)',
+    'hsl(263, 64%, 90%)',
+    'hsl(215, 77%, 90%)',
+    'hsl(195, 82%, 90%)',
+    'hsl(185, 84%, 90%)',
+    // 'hsl(167, 82%, 90%)',
+    'hsl(126, 89%, 87%)',
   ]
 
   const userNames = [
