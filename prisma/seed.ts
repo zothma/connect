@@ -61,7 +61,7 @@ async function main() {
   console.log(romeDomains)
 
   // Création des utilisateurs et de leurs projets
-  const projectColors = [
+  const advertColors = [
     'hsl(56, 85%, 90%)',
     'hsl(27, 92%, 90%)',
     'hsl(356, 100%, 90%)',
@@ -99,11 +99,11 @@ async function main() {
           first_name: firstName,
           last_name: lastName,
           image,
-          projects: {
+          adverts: {
             create: arrayRange(20).map((i) => ({
               name: `Projet ${firstName[0]}.${lastName} ${i}`,
               description: lorem.generateSentences(5),
-              color: arrayRandom(projectColors),
+              color: arrayRandom(advertColors),
               domainId: arrayRandom(romeDomains).id,
               typeId: arrayRandom(professionalBridges).id,
             })),

@@ -8,7 +8,7 @@ type Props = {
   onBookmark: (value: boolean) => void
 }
 
-export default function ProjectBookmark({ bookmarked = false, onBookmark }: Props) {
+export default function AdvertBookmark({ bookmarked = false, onBookmark }: Props) {
 
   return (
     <ButtonImage

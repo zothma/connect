@@ -10,7 +10,7 @@ export default async function handler(
   const session = await getServerSession(req, res, authConfig)
 
   if (session && session.user?.email) {
-    const bookmarks = await prisma.project.findMany({
+    const bookmarks = await prisma.advert.findMany({
       where: {
         bookmarkedBy: {
           some: {

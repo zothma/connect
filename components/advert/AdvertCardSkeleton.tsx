@@ -1,6 +1,6 @@
 import Skeleton from "../common/Skeleton"
 
-export default function ProjectCardSkeleton() {
+export default function AdvertCardSkeleton() {
   return (
     <Skeleton>
       <div className="flex flex-col h-[310px] border-2 rounded-[30px] p-1 bg-gray-100">

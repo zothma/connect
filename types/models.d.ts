@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 
-const data = Prisma.validator<Prisma.ProjectDefaultArgs>()({
+const data = Prisma.validator<Prisma.AdvertDefaultArgs>()({
   include: {
     domain: true,
     type: true,
@@ -8,4 +8,4 @@ const data = Prisma.validator<Prisma.ProjectDefaultArgs>()({
   },
 })
 
-export type ProjectWithCompleteData = Prisma.ProjectGetPayload<typeof data>
+export type AdvertWithCompleteData = Prisma.AdvertGetPayload<typeof data>

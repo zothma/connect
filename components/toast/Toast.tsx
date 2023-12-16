@@ -30,7 +30,7 @@ const STYLES: StyleFromType = {
   "SUCCESS": { icon: SuccessIcon, color: "#0AB21C" }
 }
 
-export default function Toast({ message, onDismiss, type = "ERROR", duration = 5 }: Props) {
+export default function Toast({ message, onDismiss, type = "ERROR", duration = 8 }: Props) {
   const { icon, color } = STYLES[type];
   const [runTimer, setRunTimer] = useState<boolean>(true);
 
@@ -55,7 +55,7 @@ export default function Toast({ message, onDismiss, type = "ERROR", duration = 5
         onClick={() => onDismiss()}
         style={{ height: "20px", width: "20px" }} />
 
-      <ToastTimer color={color} onComplete={() => { onDismiss() }} runAnimation={runTimer} />
+      <ToastTimer color={color} onComplete={() => { onDismiss() }} runAnimation={runTimer} duration={duration} />
     </div>
   )
 }

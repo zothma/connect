@@ -4,10 +4,10 @@ type Props = {
   color: string,
   onComplete: () => void,
   runAnimation?: boolean,
-  duration?: number,
+  duration: number,
 }
 
-export default function ToastTimer({ color, onComplete, runAnimation = true, duration = 5 }: Props) {
+export default function ToastTimer({ color, onComplete, runAnimation = true, duration }: Props) {
   const timelineOptions: gsap.TimelineVars = { onComplete }
   const animationOptions: gsap.TweenVars = { width: 0, duration }
 
