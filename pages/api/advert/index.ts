@@ -14,6 +14,11 @@ export default async function handler(
       domain: true,
       type: true,
       owner: true,
+      gradient: {
+        include: {
+          color: true,
+        },
+      },
     },
     orderBy: {
       id: 'asc',

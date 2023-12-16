@@ -27,6 +27,70 @@ model Account {
   @@map("account")
 }
 
+model Advert {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  domainId    Int
+  typeId      Int
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  gradient AdvertGradient?
+  type     ProfessionalBridge @relation(fields: [typeId], references: [id])
+  owner    User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  domain   RomeDomain         @relation(fields: [domainId], references: [id])
+
+  bookmarkedBy User[] @relation("bookmark")
+
+  @@map("advert")
+}
+
+model AdvertGradient {
+  id       Int    @id @default(autoincrement())
+  originX  Int
+  originY  Int
+  colorId  Int
+  advertId String @unique
+
+  advert Advert      @relation(fields: [advertId], references: [id], onDelete: Cascade)
+  color  AdvertColor @relation(fields: [colorId], references: [id])
+
+  @@map("advert_gradient")
+}
+
+model AdvertColor {
+  id         Int @id @default(autoincrement())
+  hue        Int
+  saturation Int
+  lightness  Int
+
+  gradients AdvertGradient[]
+
+  @@unique(name: "hsl_unique_key", [hue, saturation, lightness])
+  @@map("advert_color")
+}
+
+model ProfessionalBridge {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String @db.Text
+
+  adverts Advert[]
+
+  @@map("professional_bridge")
+}
+
+model RomeDomain {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  adverts Advert[]
+
+  @@map("rome_domain")
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -50,43 +114,4 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtoken")
-}
-
-model Advert {
-  id          String   @id @default(cuid())
-  name        String
-  description String   @db.Text
-  color       String
-  domainId    Int
-  typeId      Int
-  ownerId     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
-
-  type   ProfessionalBridge @relation(fields: [typeId], references: [id])
-  owner  User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  domain RomeDomain         @relation(fields: [domainId], references: [id])
-
-  bookmarkedBy User[] @relation("bookmark")
-
-  @@map("advert")
-}
-
-model ProfessionalBridge {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
-  description String @db.Text
-
-  adverts Advert[]
-
-  @@map("professional_bridge")
-}
-
-model RomeDomain {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
-  adverts Advert[]
-
-  @@map("rome_domain")
 }

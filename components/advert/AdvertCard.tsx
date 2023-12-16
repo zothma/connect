@@ -8,6 +8,7 @@ import Link from "next/link";
 import styles from "./advert-card.module.css"
 import { useState } from "react";
 import { raleway } from "@/lib/fonts";
+import { gradientToCss } from "@/lib/color";
 
 type Props = {
   advert: AdvertWithCompleteData,
@@ -17,11 +18,12 @@ type Props = {
 
 export default function AdvertCard({ advert, bookmarked, onBookmark }: Props) {
   const [active, setActive] = useState(false);
+  console.log(advert.gradient ? gradientToCss(advert.gradient) : '')
 
   return (
     <div
       className={"h-80 min-w-[320px] transition-transform rounded-[30px] drop-shadow-box " + (active && 'scale-95')}
-      style={{ backgroundColor: advert.color }}>
+      style={{ backgroundImage: advert.gradient ? gradientToCss(advert.gradient) : '' }}>
 
       {/* Flex block */}
       <div className="h-full w-full flex flex-col gap-4 p-5">
