@@ -11,7 +11,7 @@ export default function HeaderBar() {
       {/* Styling block */}
       <div className="bg-white drop-shadow-box border-2 border-[#F0F0F0] rounded-xl md:rounded-none">
         {/* Flex block */}
-        <div className="w-full flex justify-between items-center p-3 md:justify-normal md:gap-8">
+        <div className="w-full max-w-7xl mx-auto flex justify-between items-center px-7 py-3 md:justify-normal md:gap-8">
           <Logo className="hidden md:block" type="small" />
           <MenuItemList />
 
