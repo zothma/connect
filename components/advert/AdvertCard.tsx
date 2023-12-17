@@ -18,7 +18,6 @@ type Props = {
 
 export default function AdvertCard({ advert, bookmarked, onBookmark }: Props) {
   const [active, setActive] = useState(false);
-  console.log(advert.gradient ? gradientToCss(advert.gradient) : '')
 
   return (
     <div
@@ -58,7 +57,6 @@ export default function AdvertCard({ advert, bookmarked, onBookmark }: Props) {
           </span>
         </Link>
       </div>
-
     </div>
   )
 }

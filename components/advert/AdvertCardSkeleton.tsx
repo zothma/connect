@@ -1,30 +1,24 @@
 import Skeleton from "../common/Skeleton"
+import SkeletonElement from "../common/SkeletonElement"
 
 export default function AdvertCardSkeleton() {
   return (
-    <Skeleton>
-      <div className="flex flex-col h-[310px] border-2 rounded-[30px] p-1 bg-gray-100">
-        <div className="flex flex-col justify-between grow shrink rounded-[26px] p-4 bg-gray-200">
-          <div className="flex justify-between">
-            <div className="bg-gray-100 h-10 w-44 rounded-full"></div>
-            <div className="bg-gray-100 h-10 w-10 rounded-full"></div>
-          </div>
-          <div className="flex flex-col gap-6">
-            <div className="bg-gray-300 h-7 w-60 rounded-md"></div>
-            <div className="bg-gray-300 h-5 w-52 rounded-md"></div>
-            <div>
-              <div className="bg-gray-300 h-3 w-[90%] mb-4 rounded-md"></div>
-              <div className="bg-gray-300 h-3 w-full rounded-md"></div>
-            </div>
-          </div>
+    <Skeleton className="h-80 min-w-[320px] transition-transform rounded-[30px]">
+      {/* Flex block */}
+      <div className="h-full w-full flex flex-col gap-6 p-5">
+        <div className="w-full flex justify-between">
+          <SkeletonElement height={40} width={200} />
+          <SkeletonElement height={40} width={40} />
         </div>
-        <div className="flex mx-4 my-3 gap-4">
-          <div className="bg-gray-300 h-10 w-10 rounded-full"></div>
-          <div>
-            <div className="bg-gray-200 h-3 w-36 mb-3 mt-1 rounded-md"></div>
-            <div className="bg-gray-200 h-3 w-[90%] rounded-md"></div>
-          </div>
+
+        <div className="flex flex-col gap-4 grow">
+          <SkeletonElement height={30} width={300} />
+          <SkeletonElement height={25} width={270} />
+          <SkeletonElement height={17} width={350} />
+          <SkeletonElement height={17} width={200} />
         </div>
+
+        <SkeletonElement height={56} width={180} />
       </div>
     </Skeleton>
   )

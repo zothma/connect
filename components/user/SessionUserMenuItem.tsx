@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma"
 import { Session, getServerSession } from "next-auth"
 import UserMenuItem from "./UserMenuItem"
 import React from "react"
+import SignOut from "../auth/SignOut"
 
 type LocalProps = {
   session?: Session
@@ -14,7 +15,7 @@ export default async function SessionUserMenuItem({ session, ...props }: Props) 
   if (!currentSession?.user?.email) return <></>
 
   const user = await prisma.user.findUnique({ where: { email: currentSession.user.email } })
-  if (!user) return <></>
+  if (!user) return <SignOut />
 
   return <UserMenuItem user={user} {...props} />
 }
