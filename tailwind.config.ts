@@ -13,6 +13,7 @@ const config: Config = {
       grey: '#ACA5A0',
       lightgrey: '#CDC9C6',
       white: '#FFFFFF',
+      transparent: '#00000000',
     },
     extend: {
       backgroundImage: {
@@ -20,6 +21,7 @@ const config: Config = {
       },
       dropShadow: {
         box: '4px 4px 6px rgba(0, 0, 0, 0.12)',
+        none: '4px 4px 6px rgba(0, 0, 0, 0)',
       },
     },
   },
