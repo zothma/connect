@@ -1,35 +1,48 @@
 'use client'
 
-import Link from 'next/link'
 import React from 'react'
 import Container from '../common/Container'
 import Title from '../common/Title'
 import useHeaderVisibility from '@/hooks/useHeaderVisibility'
 import useObserver from '@/hooks/useObserver'
 import Background, { HeaderBackgroundGradient } from './HeaderBackground'
+import Button from '../common/Button'
+import ButtonLink from '../common/ButtonLink'
 
-type LinkProps = React.ComponentPropsWithoutRef<typeof Link>
-type ActionProps = Omit<LinkProps, 'children'> & { text: string }
+type ButtonProps = React.ComponentPropsWithoutRef<typeof Button>
+type ButtonLinkProps = React.ComponentPropsWithoutRef<typeof ButtonLink>
+type ActionProps = Omit<ButtonProps, 'children'> & { text: string }
+type LinkProps = Omit<ButtonLinkProps, 'children'> & { text: string }
 
 type HeaderProps = {
   title: string
   description: string
   action?: ActionProps
+  link?: LinkProps
 }
 type BackgroundProps = HeaderBackgroundGradient
 type Props = HeaderProps & BackgroundProps
 
-function generateLink(action: ActionProps | undefined) {
+function generateButton(action: ActionProps | undefined) {
   if (!action) return <></>
 
-  const { text, ...linkProps } = action
-  return <Link {...linkProps}>{text}</Link>
+  const { text, ...buttonProps } = action
+  // return <Link {...linkProps}>{text}</Link>
+  return <Button {...buttonProps}>{text}</Button>
+}
+
+function generateLink(link: LinkProps | undefined) {
+  if (!link) return <></>
+
+  const { text, ...buttonProps } = link
+  return <ButtonLink {...buttonProps}>{text}</ButtonLink>
 }
 
 export default function Header({
   title,
   description,
   action,
+  link,
   ...backgroundProps
 }: Props) {
   const observerOptions: IntersectionObserverInit = {
@@ -46,10 +59,11 @@ export default function Header({
       <div
         className="pt-11 pb-6 md:pt-28 md:pb-20"
         ref={ref}>
-        <Container className="flex flex-col gap-8">
+        <Container className="flex flex-col gap-8 items-start">
           <Title level={1}>{title}</Title>
           <p className="max-w-2xl text-lg">{description}</p>
-          {generateLink(action)}
+          {generateButton(action)}
+          {generateLink(link)}
         </Container>
       </div>
     </Background>

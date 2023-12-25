@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import useBookmarks from "@/hooks/useBookmarks";
-import useAdverts from "@/hooks/useAdverts";
-import AdvertCard from "./AdvertCard";
-import Button from "../common/Button";
-import AdvertCardSkeleton from "./AdvertCardSkeleton";
+import useBookmarks from '@/hooks/useBookmarks'
+import useAdverts from '@/hooks/useAdverts'
+import AdvertCard from './AdvertCard'
+import Button from '../common/Button'
+import AdvertCardSkeleton from './AdvertCardSkeleton'
 
 type Props = {
   fetchUrl: string
@@ -19,26 +19,37 @@ export default function AdvertContainer({ fetchUrl }: Props) {
       <div className="flex flex-wrap gap-x-12 gap-y-8 justify-stretch">
         {/* Rendering already loaded adverts */}
         {adverts?.map((advert, index) => {
-          const bookmarked = bookmarks.map(b => b.id).includes(advert.id)
+          const bookmarked = bookmarks.map((b) => b.id).includes(advert.id)
           return (
-            <div className="grow shrink min-w-[330px] basis-0" key={index}>
+            <div
+              className="grow shrink min-w-[330px] basis-0"
+              key={index}>
               <AdvertCard
                 advert={advert}
                 bookmarked={bookmarked}
-                onBookmark={(value) => setBookmarkStatus(advert, value)} />
+                onBookmark={(value) => setBookmarkStatus(advert, value)}
+              />
             </div>
           )
         })}
 
         {/* Loading adverts skeleton */}
-        {Array(amountLoading).fill(0).map((_, index) => (
-          <div className="grow shrink min-w-[330px] basis-0" key={(adverts?.length ?? 0) + index}>
-            <AdvertCardSkeleton />
-          </div>
-        ))}
+        {Array(amountLoading)
+          .fill(0)
+          .map((_, index) => (
+            <div
+              className="grow shrink min-w-[330px] basis-0"
+              key={(adverts?.length ?? 0) + index}>
+              <AdvertCardSkeleton />
+            </div>
+          ))}
       </div>
 
-      <Button className="bg-gray-200 mx-auto mt-10 hover:bg-gray-300" onClick={() => loadMoreAdverts()}>Charger plus</Button>
+      <Button
+        className="bg-gray-200 mx-auto mt-10 hover:bg-gray-300 block"
+        onClick={() => loadMoreAdverts()}>
+        Charger plus
+      </Button>
     </div>
   )
 }
