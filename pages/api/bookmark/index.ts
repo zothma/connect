@@ -10,7 +10,7 @@ export default async function handler(
   const session = await getServerSession(req, res, authConfig)
 
   if (session && session.user?.email) {
-    const bookmarks = await prisma.project.findMany({
+    const bookmarks = await prisma.advert.findMany({
       where: {
         bookmarkedBy: {
           some: {
@@ -25,8 +25,8 @@ export default async function handler(
       },
     })
 
-    return res.status(200).json(bookmarks)
+    return res.status(200).json({ data: bookmarks })
   } else {
-    return res.status(403).json({ message: 'Interdit' })
+    return res.status(401).json({ message: 'Unauthorized' })
   }
 }

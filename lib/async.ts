@@ -9,11 +9,9 @@ export function fetchWithTimeout(
 
   const controller = new AbortController()
   const id = setTimeout(() => controller.abort(), timeout)
+  const fecthOptions = { ...options, signal: controller.signal }
 
-  const promise = fetch(input, {
-    ...options,
-    signal: controller.signal,
-  }).then((res) => {
+  const promise = fetch(input, fecthOptions).then((res) => {
     clearTimeout(id)
     return res
   })

@@ -1,6 +1,7 @@
 import { signIn } from "next-auth/react";
 import ExternalSignIn from "./SimpleThirdPartySignIn";
 import { SupportedOAuthProvider } from "@/types/auth";
+import React from "react";
 
 type Props = {
   type: SupportedOAuthProvider,
