@@ -8,12 +8,17 @@ export default async function handler(
 ) {
   const result_size = req.query.size ? parseInt(req.query.size as string) : 12
 
-  const query: Prisma.ProjectFindManyArgs = {
+  const query: Prisma.AdvertFindManyArgs = {
     take: result_size,
     include: {
       domain: true,
       type: true,
       owner: true,
+      gradient: {
+        include: {
+          color: true,
+        },
+      },
     },
     orderBy: {
       id: 'asc',
@@ -25,10 +30,10 @@ export default async function handler(
     query.skip = 1
   }
 
-  const projects = await prisma.project.findMany(query)
+  const adverts = await prisma.advert.findMany(query)
 
   return res.status(200).json({
-    cursor: projects.length > 0 ? projects[result_size - 1].id : '',
-    data: projects,
+    cursor: adverts.length > 0 ? adverts[result_size - 1].id : '',
+    data: adverts,
   })
 }

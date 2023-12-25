@@ -1,15 +1,15 @@
-import { Project } from '@prisma/client'
-import { ProjectWithCompleteData } from './models'
+import { Advert } from '@prisma/client'
+import { AdvertWithCompleteData } from './models'
 
 type SimpleMessageReturnType = { message: string }
 export type ApiErrorReturnType = SimpleMessageReturnType
 export type ApiBookmarkActionReturnType = SimpleMessageReturnType
 
 export type ApiBookmarkReturnType = {
-  data: ProjectWithCompleteData[]
+  data: AdvertWithCompleteData[]
 }
 
-export type ApiProjectReturnType = {
-  cursor: Project['id']
-  data: ProjectWithCompleteData[]
+export type ApiAdvertReturnType = {
+  cursor: Advert['id']
+  data: AdvertWithCompleteData[]
 }

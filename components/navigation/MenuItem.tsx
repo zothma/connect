@@ -14,8 +14,8 @@ export default function MenuItem({ iconFill, iconLine, name, selected = false, .
   return (
     <div>
       <Link className="flex items-center gap-3 text-lg" {...linkProps}>
-        <IconSvg icon={selected ? iconFill : iconLine} width={30} height={30} />
-        <span className={"hidden lg:inline " + (selected && "font-bold")}>{name}</span>
+        <IconSvg icon={selected ? iconFill : iconLine} width={32} height={32} className="md:w-7" />
+        <span className={"hidden xl:inline " + (selected && "font-bold")}>{name}</span>
       </Link>
     </div>
   )

@@ -1,26 +1,28 @@
 import { ApiBookmarkReturnType } from '@/types/api'
-import { ProjectWithCompleteData } from '@/types/models'
+import { AdvertWithCompleteData } from '@/types/models'
 import { useEffect, useState } from 'react'
 import useFetch from './useFetch'
+import useToast from './useToast'
 
-type ProjectList = ProjectWithCompleteData[]
+type AdvertList = AdvertWithCompleteData[]
 type ApiCallCallback = () => void
 type ApiCallMethod = 'POST' | 'DELETE'
 
 /**
  * Hook allowing to fetch and manipulate (add and remove) bookmarks.
- * Returns the list of bookmarked projects and a callback for manipulating
+ * Returns the list of bookmarked adverts and a callback for manipulating
  * those bookmarks.
  */
 export default function useBookmarks(): [
-  ProjectWithCompleteData[],
-  (project: ProjectWithCompleteData, status: boolean) => void
+  AdvertWithCompleteData[],
+  (advert: AdvertWithCompleteData, status: boolean) => void
 ] {
-  const [bookmarks, setBookmarks] = useState<ProjectList>([])
+  const [bookmarks, setBookmarks] = useState<AdvertList>([])
+  const { toast } = useToast()
   const fetch = useFetch()
 
   /**
-   * Fetches bookmarked projects
+   * Fetches bookmarked adverts
    */
   const fetchData = async () => {
     try {
@@ -28,23 +30,27 @@ export default function useBookmarks(): [
       const data: ApiBookmarkReturnType = await result.json()
       setBookmarks(data.data)
     } catch (error) {
-      console.error('Error fetching data: ', error)
+      toast(
+        'Oups... ' +
+          'Une erreur est survenue lors de la récupération des annonces sauvegardées. ' +
+          'Merci de réessayer plus tard.'
+      )
     }
   }
 
   /**
    * Wrapper around the custom fetch to make a bookmark API call
-   * @param project
+   * @param advert
    * @param method
    * @param callback
    */
   async function makeApiCall(
-    project: ProjectWithCompleteData,
+    advert: AdvertWithCompleteData,
     method: ApiCallMethod,
     callback: ApiCallCallback
   ) {
     try {
-      const url = `/api/bookmark/${project.id}`
+      const url = `/api/bookmark/${advert.id}`
       const result = await fetch(url, { method })
       if (result.ok) callback()
     } catch (error) {
@@ -56,24 +62,24 @@ export default function useBookmarks(): [
     fetchData()
   }, [])
 
-  const addBookmark = (project: ProjectWithCompleteData) => {
-    makeApiCall(project, 'POST', () => {
-      setBookmarks((prev) => [...prev, project])
+  const addBookmark = (advert: AdvertWithCompleteData) => {
+    makeApiCall(advert, 'POST', () => {
+      setBookmarks((prev) => [...prev, advert])
     })
   }
 
-  const removeBookmark = (project: ProjectWithCompleteData) => {
-    makeApiCall(project, 'DELETE', () => {
-      setBookmarks((prev) => prev.filter((b) => b.id != project.id))
+  const removeBookmark = (advert: AdvertWithCompleteData) => {
+    makeApiCall(advert, 'DELETE', () => {
+      setBookmarks((prev) => prev.filter((b) => b.id != advert.id))
     })
   }
 
   const setBookmarkStatus = (
-    project: ProjectWithCompleteData,
+    advert: AdvertWithCompleteData,
     status: boolean
   ) => {
-    if (status) addBookmark(project)
-    else removeBookmark(project)
+    if (status) addBookmark(advert)
+    else removeBookmark(advert)
   }
 
   return [bookmarks, setBookmarkStatus]
