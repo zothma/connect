@@ -6,7 +6,7 @@ import Container from '../common/Container'
 import Title from '../common/Title'
 import useHeaderVisibility from '@/hooks/useHeaderVisibility'
 import useObserver from '@/hooks/useObserver'
-import Background from './HeaderBackground'
+import Background, { HeaderBackgroundGradient } from './HeaderBackground'
 
 type LinkProps = React.ComponentPropsWithoutRef<typeof Link>
 type ActionProps = Omit<LinkProps, 'children'> & { text: string }
@@ -16,7 +16,7 @@ type HeaderProps = {
   description: string
   action?: ActionProps
 }
-type BackgroundProps = React.ComponentPropsWithoutRef<typeof Background>
+type BackgroundProps = HeaderBackgroundGradient
 type Props = HeaderProps & BackgroundProps
 
 function generateLink(action: ActionProps | undefined) {
