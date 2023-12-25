@@ -1,11 +1,16 @@
 import React from 'react'
 import Container from '../common/Container'
 
-type WrapperProps = {
+export type HeaderBackgroundGradient = {
   originColor?: string
   destinationColor?: string
+}
+
+type ChildrenProps = {
   children: React.ReactNode
 }
+
+type WrapperProps = ChildrenProps & HeaderBackgroundGradient
 
 type BackgroundProps = {
   background: React.CSSProperties['background']
