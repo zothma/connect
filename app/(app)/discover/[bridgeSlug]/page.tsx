@@ -19,6 +19,8 @@ export default async function BridgePage({ params }: Props) {
 
   // Prepare the adverts
   const url = new URL('/api/advert', process.env.BASE_URL)
+  url.searchParams.set('type', currentBridge[0].id.toString())
+
   const headerOptions: HeaderOptions = {
     title: currentBridge[0].name,
     description: currentBridge[0].description,
