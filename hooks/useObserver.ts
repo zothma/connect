@@ -7,22 +7,6 @@ type ObserverOptions = IntersectionObserverInit
 
 type ReturnType<T extends HTMLElement> = ReactRef<T>
 
-class ReactObserver<T extends HTMLElement> extends IntersectionObserver {
-  public constructor(callback: ObserverCallback, options: ObserverOptions) {
-    super(callback, options)
-  }
-
-  public observeRef(ref: ReactRef<T>): void {
-    if (!ref.current) return
-    this.observe(ref.current)
-  }
-
-  public unobserveRef(ref: ReactRef<T>): void {
-    if (!ref.current) return
-    this.unobserve(ref.current)
-  }
-}
-
 /**
  * Hook creating an IntersectionObserver before connecting it to
  * a React ref.
@@ -47,11 +31,21 @@ export default function useObserver<T extends HTMLElement>(
     hookCallback(entry.isIntersecting)
   }
 
-  useEffect(() => {
-    const observer = new ReactObserver(observerCallback, observerOptions)
-    observer.observeRef(ref)
+  const observeRef = (observer: IntersectionObserver, ref: ReactRef<T>) => {
+    if (!ref.current) return
+    observer.observe(ref.current)
+  }
 
-    return () => observer.unobserveRef(ref)
+  const unobserveRef = (observer: IntersectionObserver, ref: ReactRef<T>) => {
+    if (!ref.current) return
+    observer.unobserve(ref.current)
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+    observeRef(observer, ref)
+
+    return () => unobserveRef(observer, ref)
   }, [ref, observerOptions])
 
   return ref
