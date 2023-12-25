@@ -28,6 +28,7 @@ export default async function BridgePage({ params }: Props) {
       text: 'En savoir plus',
       href: '#',
     },
+    destinationColor: 'rgb(233, 241, 239)',
   }
 
   return (
