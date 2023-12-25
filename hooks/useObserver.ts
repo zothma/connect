@@ -1,34 +1,57 @@
 import React, { useEffect, useRef } from 'react'
 
 type ReactRef<T> = React.RefObject<T>
+type HookCallback = (visible: boolean) => void
+type ObserverCallback = IntersectionObserverCallback
+type ObserverOptions = IntersectionObserverInit
+
 type ReturnType<T extends HTMLElement> = ReactRef<T>
+
+class ReactObserver<T extends HTMLElement> extends IntersectionObserver {
+  public constructor(callback: ObserverCallback, options: ObserverOptions) {
+    super(callback, options)
+  }
+
+  public observeRef(ref: ReactRef<T>): void {
+    if (!ref.current) return
+    this.observe(ref.current)
+  }
+
+  public unobserveRef(ref: ReactRef<T>): void {
+    if (!ref.current) return
+    this.unobserve(ref.current)
+  }
+}
 
 /**
  * Hook creating an IntersectionObserver before connecting it to
  * a React ref.
  *
- * @param observerOptions Options sent to the observer
- * @param callback Callback called when the visibility changes
- * @returns The React ref that has to be connected to a React component
+ * @param observerOptions Options sent to the IntersectionObserver constructor
+ * @param hookCallback Callback called when the visibility changes
+ * @returns
  */
 export default function useObserver<T extends HTMLElement>(
-  observerOptions: IntersectionObserverInit,
-  callback: (visible: boolean) => void
+  hookCallback: HookCallback,
+  observerOptions: ObserverOptions
 ): ReturnType<T> {
   const ref = useRef<T>(null)
 
-  const observerCallback: IntersectionObserverCallback = (entries) => {
+  /**
+   * Wrapper around the user-defined callback, extracting the visbility
+   * state from the IntersectionObserver API
+   * @param entries
+   */
+  const observerCallback: ObserverCallback = (entries) => {
     const [entry] = entries
-    callback(entry.isIntersecting)
+    hookCallback(entry.isIntersecting)
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-    if (ref.current) observer.observe(ref.current)
+    const observer = new ReactObserver(observerCallback, observerOptions)
+    observer.observeRef(ref)
 
-    return () => {
-      if (ref.current) observer.unobserve(ref.current)
-    }
+    return () => observer.unobserveRef(ref)
   }, [ref, observerOptions])
 
   return ref

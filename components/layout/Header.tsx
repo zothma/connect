@@ -36,15 +36,14 @@ export default function Header({
   originColor = 'rgb(255,242,232)',
   destinationColor = 'rgb(234,230,255)',
 }: Props) {
+  const observerOptions: IntersectionObserverInit = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.8,
+  }
+
   const { setIsVisible } = useHeaderVisibility()
-  const ref = useObserver<HTMLDivElement>(
-    {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.8,
-    },
-    setIsVisible
-  )
+  const ref = useObserver<HTMLDivElement>(setIsVisible, observerOptions)
 
   return (
     <div className="relative pt-11 pb-6 md:pt-28 md:pb-20" ref={ref}>
