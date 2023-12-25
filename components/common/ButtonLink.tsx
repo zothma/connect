@@ -1,18 +1,19 @@
-import { MouseEventHandler } from 'react'
+import React, { MouseEventHandler } from 'react'
 import IconSvg from './IconSvg'
 import ButtonContent from './ButtonContent'
+import Link from 'next/link'
 
 type Props = {
   children: React.ReactNode
   className?: string
+  href: React.ComponentProps<typeof Link>['href']
   icon?: any
-  onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-export default function Button({ children, className, icon, onClick }: Props) {
+export default function ButtonLink({ children, className, icon, href }: Props) {
   return (
-    <button
-      onClick={onClick}
+    <Link
+      href={href}
       className={className}>
       <ButtonContent>
         {icon ? (
@@ -25,6 +26,6 @@ export default function Button({ children, className, icon, onClick }: Props) {
         )}
         {children}
       </ButtonContent>
-    </button>
+    </Link>
   )
 }

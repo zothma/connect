@@ -22,6 +22,10 @@ export default async function BridgePage({ params }: Props) {
   const headerOptions: HeaderOptions = {
     title: currentBridge[0].name,
     description: currentBridge[0].description,
+    link: {
+      text: 'En savoir plus',
+      href: '#',
+    },
   }
 
   return (
