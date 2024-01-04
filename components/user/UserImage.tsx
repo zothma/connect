@@ -10,12 +10,12 @@ type LocalProps = {
   width?: number
   height?: number
 }
+type ImageProps = Omit<
+  React.ComponentProps<typeof Image>,
+  'src' | 'alt' | 'height' | 'width'
+>
 
-type Props = LocalProps &
-  Omit<
-    React.ComponentPropsWithoutRef<typeof Image>,
-    'src' | 'alt' | 'height' | 'width'
-  >
+type Props = LocalProps & ImageProps
 
 export default function UserImage({
   user,

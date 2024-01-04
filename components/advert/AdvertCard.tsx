@@ -1,77 +1,134 @@
 'use client'
 
-import { AdvertWithCompleteData } from '@/types/models'
-import AdvertTypeBadge from './AdvertTypeBadge'
+import AdvertBackground from './AdvertBackground'
 import AdvertBookmark from './AdvertBookmark'
-import UserImage from '../user/UserImage'
-import Link from 'next/link'
+import AdvertDomain from './AdvertDomain'
+import AdvertCardSkeleton from './AdvertCardSkeleton'
+import AdvertOwnerBadge from './AdvertOwnerBadge'
+import AdvertTypeBadge from './AdvertTypeBadge'
 import styles from './advert-card.module.css'
-import { useState } from 'react'
+import { AdvertWithCompleteData } from '@/types/models'
+import { MinimalGradient, generateFetchRandomGradient } from '@/lib/color'
 import { raleway } from '@/lib/fonts'
-import { gradientToCss } from '@/lib/color'
+import { Advert } from '@prisma/client'
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import React, { Suspense, useEffect, useState } from 'react'
+import { User } from 'next-auth'
 
-type Props = {
-  advert: AdvertWithCompleteData
+type BookmarkProps = {
   bookmarked: boolean
   onBookmark: (value: boolean) => void
 }
 
-export default function AdvertCard({ advert, bookmarked, onBookmark }: Props) {
+type CardProps = {
+  name: Advert['name']
+  description: Advert['description']
+  type: React.ComponentProps<typeof AdvertTypeBadge>['type']
+  owner: React.ComponentProps<typeof AdvertOwnerBadge>['owner']
+  gradient: React.ComponentProps<typeof AdvertBackground>['gradient'] | null
+  domain: React.ComponentProps<typeof AdvertDomain>['domain']
+  disableActions?: boolean
+}
+
+function Card(props: CardProps & BookmarkProps) {
   const [active, setActive] = useState(false)
 
   return (
-    <div
-      className={
-        'h-80 min-w-[320px] transition-transform rounded-[30px] drop-shadow-box ' +
-        (active && 'scale-95')
-      }
-      style={{
-        backgroundImage: advert.gradient ? gradientToCss(advert.gradient) : '',
-      }}>
-      {/* Flex block */}
+    <AdvertBackground
+      active={active}
+      gradient={props.gradient}>
+      {/* Global flex block */}
       <div className="h-full w-full flex flex-col gap-4 p-5">
         <div className="relative z-10 w-full flex justify-between">
-          <AdvertTypeBadge type={advert.type} />
+          <AdvertTypeBadge
+            type={props.type}
+            disableActions={props.disableActions}
+          />
           <AdvertBookmark
-            bookmarked={bookmarked}
-            onBookmark={onBookmark}
+            bookmarked={props.bookmarked}
+            onBookmark={props.disableActions ? () => {} : props.onBookmark}
           />
         </div>
 
         <div className="flex flex-col gap-4 grow">
           <p className="text-2xl font-semibold mt-2">
             <Link
-              href="#card"
+              href={props.disableActions ? '#' : '#card'}
               className={styles.enlarged_link + ' ' + raleway.className}
               onMouseDown={() => setActive(true)}
               onMouseLeave={() => setActive(false)}
               onMouseUp={() => setActive(false)}>
-              {advert.name}
+              {props.name}
             </Link>
           </p>
-          <p className="text-lg">{advert.domain.name}</p>
-          <p className="truncate-2">{advert.description}</p>
+          <AdvertDomain domain={props.domain} />
+          <p className="truncate-2">{props.description}</p>
         </div>
 
-        <Link
-          href="#user"
-          className="relative z-10 active:scale-95 transition-transform self-start bg-white rounded-[30px]">
-          <span className="flex h-full gap-3 pt-2 pb-2 pl-2 pr-5">
-            <UserImage
-              user={advert.owner}
-              height={40}
-              width={40}
-            />
-            <span className="flex flex-col h-full">
-              <span className="text font-bold">
-                {advert.owner.first_name}{' '}
-                {advert.owner.last_name?.toLocaleUpperCase()}
-              </span>
-              <span className="text-sm -mt-1">Travaille à ...</span>
-            </span>
-          </span>
-        </Link>
+        <AdvertOwnerBadge owner={props.owner} />
       </div>
-    </div>
+    </AdvertBackground>
+  )
+}
+
+type Props = {
+  advert: AdvertWithCompleteData
+  disableActions?: boolean
+}
+
+export default function AdvertCard({
+  advert,
+  disableActions = false,
+  ...props
+}: Props & BookmarkProps) {
+  const [active, setActive] = useState(false)
+
+  return (
+    <Card
+      name={advert.name}
+      description={advert.description}
+      type={advert.type}
+      owner={advert.owner}
+      gradient={advert.gradient}
+      domain={advert.domain}
+      {...props}
+    />
+  )
+}
+
+type DummyProps = { [K in Exclude<keyof CardProps, 'owner'>]?: CardProps[K] }
+
+export function DummyAdvertCard(props: DummyProps) {
+  const session = useSession()
+
+  const [gradient, setGradient] = useState<MinimalGradient | null>(null)
+  const fetchRandomGradient = generateFetchRandomGradient()
+
+  useEffect(() => {
+    fetchRandomGradient().then(setGradient)
+  }, [])
+
+  if (!session?.data?.user) return <></>
+  if (!gradient) return <AdvertCardSkeleton />
+
+  const user = session.data.user
+
+  return (
+    <Card
+      name={props.name ?? 'Titre'}
+      description={props.description ?? 'Description'}
+      domain={props.domain ?? { name: 'Domaines' }}
+      type={props.type ?? { name: 'Catégorie' }}
+      gradient={gradient}
+      owner={{
+        first_name: user.first_name ?? 'Prénom',
+        last_name: user.last_name ?? 'Nom',
+        image: user.image ?? '#',
+      }}
+      onBookmark={() => {}}
+      bookmarked={false}
+      disableActions
+    />
   )
 }

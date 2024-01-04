@@ -1,0 +1,9 @@
+.input_block > input:focus {
+  outline: none;
+}
+
+.input_block > input:focus + label,
+.input_block > :not(input:placeholder-shown) + label {
+  top: 0px;
+  font-size: 12px;
+}
