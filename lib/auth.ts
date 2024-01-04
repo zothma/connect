@@ -36,16 +36,15 @@ export const authConfig: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      // Ajout du nom et du prénom au JWT
       if (user) {
         token.first_name = user.first_name
         token.last_name = user.last_name
+        token.user_id = user.id
       }
       return token
     },
 
     async session({ session, token }) {
-      // Ajout du nom et du prénom à l'utilisateur stocké en session
       if (token && session.user) {
         session.user.first_name = token.first_name
         session.user.last_name = token.last_name
