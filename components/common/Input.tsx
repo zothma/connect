@@ -1,4 +1,4 @@
-import React, { HTMLInputTypeAttribute } from 'react'
+import React from 'react'
 import style from './input.module.css'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -7,7 +7,14 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: string
 }
 
-export default function Input({ id, label, icon, type, className }: Props) {
+export default function Input({
+  id,
+  label,
+  icon,
+  type,
+  className,
+  ...props
+}: Props) {
   return (
     <div className={'relative ' + style.input_block}>
       <input
@@ -18,6 +25,7 @@ export default function Input({ id, label, icon, type, className }: Props) {
           'h-11 border-grey border-[1px] placeholder:text-transparent rounded-xl px-4 w-full text-darker ' +
           (className ?? '')
         }
+        {...props}
       />
       <label
         htmlFor={id}

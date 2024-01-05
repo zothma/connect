@@ -1,0 +1,31 @@
+.textarea_block textarea:focus {
+  outline: none;
+}
+
+.textarea_block textarea:focus + label,
+.textarea_block :not(textarea:placeholder-shown) + label {
+  top: 0px;
+  font-size: 12px;
+  font-weight: bold;
+  transform: translateY(-50%);
+}
+
+.grow_wrap {
+  display: grid;
+}
+
+.grow_wrap::after {
+  content: attr(data-replicated-value) ' ';
+  white-space: pre-wrap;
+  visibility: hidden;
+  padding: 8px 16px;
+}
+
+.grow_wrap > textarea {
+  overflow: hidden;
+}
+
+.grow_wrap > textarea,
+.grow_wrap::after {
+  grid-area: 1 / 1 / 2 / 2;
+}

@@ -6,4 +6,5 @@
 .input_block > :not(input:placeholder-shown) + label {
   top: 0px;
   font-size: 12px;
+  font-weight: bold;
 }

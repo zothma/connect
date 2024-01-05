@@ -4,10 +4,15 @@ import React from 'react'
 type Props = {
   children: React.ReactNode
   level: 1 | 2 | 3
+  className?: string
 }
 
-export default function Title({ level, children }: Props) {
-  const className = 'tracking-wide ' + raleway.className
+export default function Title({
+  level,
+  children,
+  className: propsClassName,
+}: Props) {
+  const className = `tracking-wide text-darker ${raleway.className} ${propsClassName}`
 
   switch (level) {
     case 1:
