@@ -32,7 +32,6 @@ export default function Textarea({
           className="px-4 py-2 w-full rounded-xl placeholder:text-transparent resize-none"
           placeholder={label}
           onChange={handleChange}
-          rows={8}
           {...props}
         />
         <label
