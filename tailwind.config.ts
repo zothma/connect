@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss'
 
-const config: Config = {
+const config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,6 +14,7 @@ const config: Config = {
       lightgrey: '#CDC9C6',
       white: '#FFFFFF',
       transparent: '#00000000',
+      red: '#FF4753',
     },
     extend: {
       backgroundImage: {
