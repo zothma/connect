@@ -30,6 +30,12 @@ export function generateRandomGradientCoordinates(): AdvertGradientCoordinates {
   }
 }
 
+/**
+ * Generates a random gradient using the given colors.
+ *
+ * @param colors - An array of AdvertColor objects representing the available colors.
+ * @returns An object containing the randomly selected color and the origin coordinates of the gradient.
+ */
 export function generateRandomGradient(colors: AdvertColor[]) {
   const randomIndex = randomBetween(0, colors.length - 1)
   const randomCoordinates = generateRandomGradientCoordinates()
@@ -38,17 +44,6 @@ export function generateRandomGradient(colors: AdvertColor[]) {
     color: colors[randomIndex],
     originX: randomCoordinates.originX,
     originY: randomCoordinates.originY,
-  }
-}
-
-export function useFetchRandomGradient(): () => Promise<MinimalGradient> {
-  const fetch = useFetch()
-  const url: Route = '/api/advert-color'
-
-  return async () => {
-    const response = await fetch(url)
-    const colors: ApiAdvertColorReturnType = await response.json()
-    return generateRandomGradient(colors.data)
   }
 }
 

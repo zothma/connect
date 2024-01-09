@@ -1,6 +1,13 @@
+'use client'
+
+import TextSwitch from '@/components/common/TextSwitch'
 import Title from '@/components/common/Title'
-import CreateAdvertForm from '@/components/forms/CreateAdvertForm'
+import CreateAdvertForm from '@/components/forms/create-advert/CreateAdvertForm'
 import SimpleLayout from '@/components/layout/SimpleLayout'
+import CalendarEventFill from '@icons/calendar-event-fill.svg'
+import CalendarEventLine from '@icons/calendar-event-line.svg'
+import ShakeHandsFill from '@icons/shake-hands-fill.svg'
+import ShakeHandsLine from '@icons/shake-hands-line.svg'
 
 export default function CreateAdvertPage() {
   return (
@@ -11,7 +18,23 @@ export default function CreateAdvertPage() {
         Créer une annonce
       </Title>
 
-      <div className="flex gap-24">
+      <TextSwitch
+        id="create_type"
+        leftOption={{
+          label: 'Annonce simple',
+          value: 'advert',
+          icon: ShakeHandsLine,
+          selectedIcon: ShakeHandsFill,
+        }}
+        rightOption={{
+          label: 'Événement & Rencontre',
+          value: 'event',
+          icon: CalendarEventLine,
+          selectedIcon: CalendarEventFill,
+        }}
+      />
+
+      <div className="mt-8">
         <CreateAdvertForm />
       </div>
     </SimpleLayout>

@@ -8,12 +8,11 @@ import AdvertOwnerBadge from './AdvertOwnerBadge'
 import AdvertTypeBadge from './AdvertTypeBadge'
 import styles from './advert-card.module.css'
 import { AdvertWithCompleteData } from '@/types/models'
-import { MinimalGradient, useFetchRandomGradient } from '@/lib/color'
 import { raleway } from '@/lib/fonts'
 import { Advert } from '@prisma/client'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 type BookmarkProps = {
   bookmarked: boolean
@@ -100,15 +99,8 @@ type DummyProps = { [K in Exclude<keyof CardProps, 'owner'>]?: CardProps[K] }
 
 export function DummyAdvertCard(props: DummyProps) {
   const session = useSession()
-
-  const [gradient, setGradient] = useState<MinimalGradient | null>(null)
-  const fetchRandomGradient = useFetchRandomGradient()
-
-  useEffect(() => {
-    fetchRandomGradient().then(setGradient)
-  }, [])
-
-  if (!session?.data?.user || !gradient) return <AdvertCardSkeleton />
+  if (!session?.data?.user) return <AdvertCardSkeleton />
+  if (!props.gradient) return <AdvertCardSkeleton />
 
   const user = session.data.user
 
@@ -118,7 +110,7 @@ export function DummyAdvertCard(props: DummyProps) {
       description={props.description ?? 'Description'}
       domain={props.domain ?? { name: 'Domaines' }}
       type={props.type ?? { name: 'Catégorie' }}
-      gradient={gradient}
+      gradient={props.gradient}
       owner={{
         first_name: user.first_name ?? 'Prénom',
         last_name: user.last_name ?? 'Nom',
