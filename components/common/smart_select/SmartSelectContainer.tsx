@@ -1,6 +1,6 @@
 import { components, ContainerProps } from 'react-select'
 import SmartSelectLabel from './SmartSelectLabel'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { SmartSelectContext } from './SmartSelectContext'
 
 export default function SmartSelectContainer(props: ContainerProps) {
@@ -15,6 +15,7 @@ export default function SmartSelectContainer(props: ContainerProps) {
 
       <SmartSelectLabel
         isSmall={props.isFocused || props.hasValue}
+        isBlack={props.isFocused}
         htmlFor={id}>
         {label}
       </SmartSelectLabel>

@@ -1,10 +1,20 @@
-.input_block > input:focus {
-  outline: none;
-}
-
 .input_block > input:focus + label,
 .input_block > :not(input:placeholder-shown) + label {
   top: 0px;
   font-size: 12px;
   font-weight: bold;
+}
+
+.input_block > input:focus + label {
+  @apply text-dark;
+}
+
+.input_block > input:hover,
+.input_block > input:focus {
+  @apply border-dark;
+}
+
+.input_block > input:focus {
+  outline: 1px solid #372D25;
+  /* @apply outline-8 outline-darker; */
 }

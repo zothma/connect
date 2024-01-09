@@ -23,7 +23,7 @@ export default function Textarea({
 
   return (
     <div
-      className={`relative border-grey border-[1px] rounded-xl ${style.textarea_block}`}>
+      className={`relative hover:border-darker border-grey border-[1px] rounded-xl ${style.textarea_block}`}>
       <div
         className={style.grow_wrap}
         data-replicated-value={data}>

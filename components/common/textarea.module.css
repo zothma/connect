@@ -1,5 +1,14 @@
 .textarea_block textarea:focus {
-  outline: none;
+  outline: 2px solid #372D25;
+}
+
+.textarea_block textarea:focus + label {
+  @apply text-dark;
+}
+
+.textarea_block textarea:hover,
+.textarea_block textarea:focus {
+  @apply border-darker;
 }
 
 .textarea_block textarea:focus + label,

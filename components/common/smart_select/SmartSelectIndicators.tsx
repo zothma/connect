@@ -4,15 +4,17 @@ import Close from '@icons/close.svg'
 import DropdownFill from '@icons/dropdown-fill.svg'
 
 export function ClearIndicator({
+  isFocused,
   innerProps: { ref, className, ...innerProps },
 }: ClearIndicatorProps<any>) {
+  const colorClassName = isFocused ? 'fill-dark' : 'fill-grey'
   return (
     <div
       ref={ref}
       className={`cursor-pointer ${className}`}
       {...innerProps}>
       <IconSvg
-        className="fill-grey hover:fill-dark transition-all"
+        className={`hover:fill-darker transition-all ${colorClassName}}`}
         icon={Close}
         height={24}
         width={24}
@@ -22,12 +24,14 @@ export function ClearIndicator({
 }
 
 export function DropdownIndicator({
+  isFocused,
   innerProps: { ref, className, ...innerProps },
 }: DropdownIndicatorProps<any>) {
+  const colorClassName = isFocused ? 'text-dark' : 'text-grey'
   return (
     <div
       ref={ref}
-      className={`text-grey hover:text-dark transition-all cursor-pointer ${className}`}
+      className={`hover:text-dark transition-all cursor-pointer ${colorClassName} ${className}`}
       {...innerProps}>
       <IconSvg
         icon={DropdownFill}

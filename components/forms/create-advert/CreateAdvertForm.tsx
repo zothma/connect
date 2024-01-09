@@ -50,7 +50,7 @@ export default function CreateAdvertForm() {
         </Button>
       </form>
 
-      <div className="sticky top-24 h-min">
+      <div className="hidden lg:block sticky top-24 h-min">
         <CreateAdvertPreview {...data} />
       </div>
     </div>

@@ -23,7 +23,7 @@ export default function Input({
         type={type ?? 'text'}
         placeholder={label}
         className={
-          'h-11 border-grey border-[1px] placeholder:text-transparent rounded-xl px-4 w-full text-darker ' +
+          'h-11 border-grey border-[1px] placeholder:text-transparent rounded-xl px-4 w-full text-darker transition-all ' +
           (className ?? '')
         }
         {...props}
