@@ -29,6 +29,7 @@ export default function Textarea({
         data-replicated-value={data}>
         <textarea
           id={id}
+          name={id}
           className="px-4 py-2 w-full rounded-xl placeholder:text-transparent resize-none"
           placeholder={label}
           onChange={handleChange}

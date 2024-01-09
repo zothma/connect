@@ -9,8 +9,15 @@ import CalendarEventFill from '@icons/calendar-event-fill.svg'
 import CalendarEventLine from '@icons/calendar-event-line.svg'
 import ShakeHandsFill from '@icons/shake-hands-fill.svg'
 import ShakeHandsLine from '@icons/shake-hands-line.svg'
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import Button from '../common/Button'
+import { AsyncSmartSelect } from '../common/smart_select/SmartSelect'
+import { createAdvertAction } from './createAdvertAction'
+import useFetch from '@/hooks/useFetch'
+import {
+  ApiProfessionalBridgeReturnType,
+  ApiRomeDomainReturnType,
+} from '@/types/api'
 
 type AdvertCardProps = React.ComponentProps<typeof DummyAdvertCard>
 type AcceptedInputs = HTMLInputElement | HTMLTextAreaElement
@@ -28,6 +35,7 @@ function Preview({ data }: { data: AdvertCardProps }) {
 
 export default function CreateAdvertForm() {
   const [data, setData] = useState<AdvertCardProps>({})
+  const fetch = useFetch()
 
   /**
    * Generates the change event handler associated with the given key.
@@ -49,7 +57,9 @@ export default function CreateAdvertForm() {
 
   return (
     <>
-      <form className="flex flex-col gap-8 items-stretch grow shrink">
+      <form
+        className="flex flex-col gap-8 items-stretch grow shrink"
+        action={createAdvertAction}>
         <TextSwitch
           id="create_type"
           leftOption={{
@@ -66,21 +76,62 @@ export default function CreateAdvertForm() {
           }}
         />
 
+        <AsyncSmartSelect
+          id="create_advert_type"
+          label="Catégorie d'annonce"
+          isMulti={false}
+          onChange={(option) =>
+            setData((previous) => ({
+              ...previous,
+              type: { name: option.label },
+            }))
+          }
+          loadOptions={(intputValue, callback) => {
+            fetch('/api/professional-bridge?search=' + intputValue)
+              .then((res) => res.json())
+              .then((data: ApiProfessionalBridgeReturnType) => {
+                callback(
+                  data.data.map((domain) => ({
+                    label: domain.name,
+                    value: domain.id,
+                  }))
+                )
+              })
+          }}
+        />
+
         <Input
           id="create_advert_title"
           type="text"
           label="Titre"
           onChange={generateChangeHandler('name', (value) => value)}
         />
-        <Input
-          id="create_advert_domains"
-          type="text"
+        <AsyncSmartSelect
+          id="create_advert_domain"
           label="Domaines"
-          onChange={generateChangeHandler('domain', (name) => ({ name }))}
+          isMulti={false}
+          onChange={(option) =>
+            setData((previous) => ({
+              ...previous,
+              domain: { name: option.label },
+            }))
+          }
+          loadOptions={(intputValue, callback) => {
+            fetch('/api/rome-domain?search=' + intputValue)
+              .then((res) => res.json())
+              .then((data: ApiRomeDomainReturnType) => {
+                callback(
+                  data.data.map((domain) => ({
+                    label: domain.name,
+                    value: domain.id,
+                  }))
+                )
+              })
+          }}
         />
         <Input
           id="create_advert_start_date"
-          type="text"
+          type="date"
           label="Date de début"
         />
         <Textarea

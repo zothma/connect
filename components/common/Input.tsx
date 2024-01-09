@@ -19,6 +19,7 @@ export default function Input({
     <div className={'relative ' + style.input_block}>
       <input
         id={id}
+        name={id}
         type={type ?? 'text'}
         placeholder={label}
         className={

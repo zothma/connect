@@ -30,22 +30,25 @@ export function generateRandomGradientCoordinates(): AdvertGradientCoordinates {
   }
 }
 
-export function generateFetchRandomGradient(): () => Promise<MinimalGradient> {
+export function generateRandomGradient(colors: AdvertColor[]) {
+  const randomIndex = randomBetween(0, colors.length - 1)
+  const randomCoordinates = generateRandomGradientCoordinates()
+
+  return {
+    color: colors[randomIndex],
+    originX: randomCoordinates.originX,
+    originY: randomCoordinates.originY,
+  }
+}
+
+export function useFetchRandomGradient(): () => Promise<MinimalGradient> {
   const fetch = useFetch()
   const url: Route = '/api/advert-color'
 
   return async () => {
     const response = await fetch(url)
     const colors: ApiAdvertColorReturnType = await response.json()
-
-    const randomIndex = randomBetween(0, colors.data.length - 1)
-    const randomCoordinates = generateRandomGradientCoordinates()
-
-    return {
-      color: colors.data[randomIndex],
-      originX: randomCoordinates.originX,
-      originY: randomCoordinates.originY,
-    }
+    return generateRandomGradient(colors.data)
   }
 }
 

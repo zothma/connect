@@ -33,6 +33,7 @@ function Option({
 
   return (
     <button
+      type="button"
       className={`row-start-1 row-end-2 py-1 pr-3 flex gap-2 ${
         icon ? 'pl-2' : 'pl-3'
       } ${className} ${selectedClassName}`}

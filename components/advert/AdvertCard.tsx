@@ -8,13 +8,12 @@ import AdvertOwnerBadge from './AdvertOwnerBadge'
 import AdvertTypeBadge from './AdvertTypeBadge'
 import styles from './advert-card.module.css'
 import { AdvertWithCompleteData } from '@/types/models'
-import { MinimalGradient, generateFetchRandomGradient } from '@/lib/color'
+import { MinimalGradient, useFetchRandomGradient } from '@/lib/color'
 import { raleway } from '@/lib/fonts'
 import { Advert } from '@prisma/client'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import React, { Suspense, useEffect, useState } from 'react'
-import { User } from 'next-auth'
 
 type BookmarkProps = {
   bookmarked: boolean
@@ -103,14 +102,13 @@ export function DummyAdvertCard(props: DummyProps) {
   const session = useSession()
 
   const [gradient, setGradient] = useState<MinimalGradient | null>(null)
-  const fetchRandomGradient = generateFetchRandomGradient()
+  const fetchRandomGradient = useFetchRandomGradient()
 
   useEffect(() => {
     fetchRandomGradient().then(setGradient)
   }, [])
 
-  if (!session?.data?.user) return <></>
-  if (!gradient) return <AdvertCardSkeleton />
+  if (!session?.data?.user || !gradient) return <AdvertCardSkeleton />
 
   const user = session.data.user
 
