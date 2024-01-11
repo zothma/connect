@@ -1,7 +1,7 @@
 'use client'
 
 import ArrowRightLine from '@icons/arrow-right-line.svg'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@/components/common/Button'
 import { createAdvertAction } from './createAdvertAction'
 import CreateAdvertPreview from './CreateAdvertPreview'
@@ -10,11 +10,20 @@ import TitleField from './AdvertTitleField'
 import DomainField from './AdvertDomainField'
 import DateField from './AdvertDateField'
 import DescriptionField from './AdvertDescriptionField'
+import FormStatusHandler from '../FormStatusHandler'
+import { useFormState } from 'react-dom'
+import useToast from '@/hooks/useToast'
+import { useRouter } from 'next/navigation'
+import DiscoverPage from '@/app/(app)/discover/page'
 
 type PreviewProps = React.ComponentProps<typeof CreateAdvertPreview>
 
 export default function CreateAdvertForm() {
   const [data, setData] = useState<PreviewProps>({})
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [formState, formAction] = useFormState(createAdvertAction, null)
+  const { toast } = useToast()
+  const router = useRouter()
 
   /**
    * Generates a change handler function for a specific key of the PreviewProps object.
@@ -31,11 +40,22 @@ export default function CreateAdvertForm() {
     }
   }
 
+  useEffect(() => {
+    if (!formState) return
+    if (!formState.success) return toast(formState.error, 'ERROR')
+
+    toast("L'annonce a été créée avec succès !", 'SUCCESS')
+    router.push('/')
+  }, [formState])
+
   return (
-    <div className="flex gap-24 mt-">
+    <div className="flex gap-24">
       <form
         className="flex flex-col gap-8 items-stretch grow shrink"
-        action={createAdvertAction}>
+        action={formAction}>
+        <FormStatusHandler onStatusChange={setIsProcessing} />
+        {isProcessing && <div>L'annonce est en cours de création...</div>}
+
         <TypeField onChange={generateChangeHandler('type')} />
         <TitleField onChange={generateChangeHandler('name')} />
         <DomainField onChange={generateChangeHandler('domain')} />
