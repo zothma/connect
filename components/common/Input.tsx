@@ -1,18 +1,38 @@
-import { HTMLAttributes, HTMLInputTypeAttribute, InputHTMLAttributes } from "react"
+import React from 'react'
+import style from './input.module.css'
 
-type Props = {
-  placeholder?: string,
-  icon?: string,
-  type?: HTMLInputTypeAttribute,
-  className?: string
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: string
+  label: string
+  icon?: string
 }
 
-export default function Input({ placeholder, icon, type, className }: Props) {
+export default function Input({
+  id,
+  label,
+  icon,
+  type,
+  className,
+  ...props
+}: Props) {
   return (
-    <input
-      type={type ?? 'text'}
-      placeholder={placeholder}
-      className={'h-11 border-black border-[1px] rounded-xl px-3 ' + (className ?? '')}
-    />
+    <div className={'relative ' + style.input_block}>
+      <input
+        id={id}
+        name={id}
+        type={type ?? 'text'}
+        placeholder={label}
+        className={
+          'h-11 border-grey border-[1px] placeholder:text-transparent rounded-xl px-4 w-full text-darker transition-all ' +
+          (className ?? '')
+        }
+        {...props}
+      />
+      <label
+        htmlFor={id}
+        className="absolute left-3 top-[50%] -translate-y-[50%] text-grey bg-white px-1 cursor-text transition-all">
+        {label}
+      </label>
+    </div>
   )
 }
