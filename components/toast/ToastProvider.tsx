@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
-import { ToastContext } from "./ToastContext"
-import { ToastData } from "@/types/components"
+import React, { useState } from 'react'
+import { ToastContext } from './ToastContext'
+import { ToastData, ToastType } from '@/types/components'
 
 type Props = {
   children: React.ReactNode
@@ -11,10 +11,11 @@ type Props = {
 export function ToastProvider({ children }: Props) {
   const [toasts, setToasts] = useState<ToastData[]>([])
 
-  const addToast = (message: string) => {
+  const addToast = (message: string, type?: ToastType) => {
     const toast: ToastData = {
       id: Date.now(),
-      message
+      message,
+      type,
     }
 
     setToasts((prev) => [...prev, toast])
@@ -22,8 +23,8 @@ export function ToastProvider({ children }: Props) {
 
   const getToasts = () => toasts
 
-  const removeToast = (id: ToastData["id"]) => {
-    setToasts((prev) => prev.filter(toast => toast.id != id))
+  const removeToast = (id: ToastData['id']) => {
+    setToasts((prev) => prev.filter((toast) => toast.id != id))
   }
 
   return (
