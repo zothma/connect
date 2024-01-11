@@ -12,6 +12,7 @@ export default async function handler(
         mode: 'insensitive',
       },
     },
+    take: 10,
   })
   return res.status(200).json({ data: romeDomains })
 }
