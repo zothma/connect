@@ -9,6 +9,9 @@ export default async function handler(
   const result_size = req.query.size ? parseInt(req.query.size as string) : 12
 
   const query: Prisma.AdvertFindManyArgs = {
+    where: {
+      typeId: req.query.type ? parseInt(req.query.type as string) : undefined,
+    },
     take: result_size,
     include: {
       domain: true,
@@ -21,7 +24,7 @@ export default async function handler(
       },
     },
     orderBy: {
-      id: 'asc',
+      id: 'desc',
     },
   }
 
@@ -33,7 +36,7 @@ export default async function handler(
   const adverts = await prisma.advert.findMany(query)
 
   return res.status(200).json({
-    cursor: adverts.length > 0 ? adverts[result_size - 1].id : '',
+    cursor: adverts.length > 0 ? adverts[adverts.length - 1].id : '',
     data: adverts,
   })
 }
