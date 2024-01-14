@@ -27,13 +27,14 @@ export function DropdownIndicator({
   isFocused,
   innerProps: { ref, className, ...innerProps },
 }: DropdownIndicatorProps<any>) {
-  const colorClassName = isFocused ? 'text-dark' : 'text-grey'
+  const colorClassName = isFocused ? 'fill-dark' : 'fill-grey'
   return (
     <div
       ref={ref}
-      className={`hover:text-dark transition-all cursor-pointer ${colorClassName} ${className}`}
+      className={`cursor-pointer ${className}`}
       {...innerProps}>
       <IconSvg
+        className={`hover:fill-dark transition-all ${colorClassName}`}
         icon={DropdownFill}
         height={24}
         width={24}
