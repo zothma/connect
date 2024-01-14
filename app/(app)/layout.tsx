@@ -1,6 +1,6 @@
-import HeaderBar from "@/components/navigation/HeaderBar";
-import ToastContainer from "@/components/toast/ToastContainer";
-import React from "react";
+import HeaderBar from '@/components/navigation/HeaderBar'
+import ToastContainer from '@/components/toast/ToastContainer'
+import React from 'react'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
