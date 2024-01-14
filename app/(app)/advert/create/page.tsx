@@ -27,7 +27,7 @@ export default function CreateAdvertPage() {
           selectedIcon: ShakeHandsFill,
         }}
         rightOption={{
-          label: 'Événement & Rencontre',
+          label: 'Événement',
           value: 'event',
           icon: CalendarEventLine,
           selectedIcon: CalendarEventFill,
