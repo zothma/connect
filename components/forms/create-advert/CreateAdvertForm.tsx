@@ -14,7 +14,6 @@ import FormStatusHandler from '../FormStatusHandler'
 import { useFormState } from 'react-dom'
 import useToast from '@/hooks/useToast'
 import { useRouter } from 'next/navigation'
-import DiscoverPage from '@/app/(app)/discover/page'
 
 type PreviewProps = React.ComponentProps<typeof CreateAdvertPreview>
 

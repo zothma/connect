@@ -21,15 +21,13 @@ export default function AdvertContainer({ fetchUrl }: Props) {
         {adverts?.map((advert, index) => {
           const bookmarked = bookmarks.map((b) => b.id).includes(advert.id)
           return (
-            <div
+            <AdvertCard
+              advert={advert}
+              bookmarked={bookmarked}
+              onBookmark={(value) => setBookmarkStatus(advert, value)}
               className="grow shrink min-w-[330px] basis-0"
-              key={index}>
-              <AdvertCard
-                advert={advert}
-                bookmarked={bookmarked}
-                onBookmark={(value) => setBookmarkStatus(advert, value)}
-              />
-            </div>
+              key={index}
+            />
           )
         })}
 

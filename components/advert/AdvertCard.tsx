@@ -26,6 +26,7 @@ type CardProps = {
   owner: React.ComponentProps<typeof AdvertOwnerBadge>['owner']
   gradient: React.ComponentProps<typeof AdvertBackground>['gradient'] | null
   domain: React.ComponentProps<typeof AdvertDomain>['domain']
+  className?: string
   disableActions?: boolean
 }
 
@@ -35,7 +36,8 @@ function Card(props: CardProps & BookmarkProps) {
   return (
     <AdvertBackground
       active={active}
-      gradient={props.gradient}>
+      gradient={props.gradient}
+      className={props.className}>
       {/* Global flex block */}
       <div className="h-full w-full flex flex-col gap-4 p-5">
         <div className="relative z-10 w-full flex justify-between">
@@ -72,6 +74,7 @@ function Card(props: CardProps & BookmarkProps) {
 
 type Props = {
   advert: AdvertWithCompleteData
+  className?: string
   disableActions?: boolean
 }
 
@@ -80,8 +83,6 @@ export default function AdvertCard({
   disableActions = false,
   ...props
 }: Props & BookmarkProps) {
-  const [active, setActive] = useState(false)
-
   return (
     <Card
       name={advert.name}
@@ -118,6 +119,7 @@ export function DummyAdvertCard(props: DummyProps) {
       }}
       onBookmark={() => {}}
       bookmarked={false}
+      className={props.className}
       disableActions
     />
   )
