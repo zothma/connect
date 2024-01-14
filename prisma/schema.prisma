@@ -28,14 +28,17 @@ model Account {
 }
 
 model Advert {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
-  description String   @db.Text
+  description String    @db.Text
+  body        String    @default("") @db.Text
   domainId    Int
   typeId      Int
   ownerId     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
 
   gradient AdvertGradient?
   type     ProfessionalBridge @relation(fields: [typeId], references: [id])
