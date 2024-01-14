@@ -21,7 +21,7 @@ export default function HeaderBar() {
           <MenuItemList />
 
           {/* Separator */}
-          <div className="hidden md:block md:flex-grow"></div>
+          <div className="hidden md:block md:flex-grow -mx-8"></div>
 
           <NotificationMenuItem className="hidden md:block" />
           <ButtonLink
@@ -29,7 +29,6 @@ export default function HeaderBar() {
             href="/advert/create">
             Créer une annonce
           </ButtonLink>
-          {/* <SessionUserMenuItem className="h-8 w-8 rounded-lg overflow-hidden md:h-10 md:w-10 md:rounded-[10px]" /> */}
           <UserMenuItem className="h-8 w-8 rounded-lg overflow-hidden md:h-10 md:w-10 md:rounded-[10px]" />
         </Container>
       </HeaderBarBackground>
