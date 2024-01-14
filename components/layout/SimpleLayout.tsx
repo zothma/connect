@@ -1,14 +1,12 @@
-import React from "react"
-import Container from "../common/Container"
+import React from 'react'
+import Container from '../common/Container'
 
 type Props = {
-  children: React.ReactNode,
+  children: React.ReactNode
 }
 
 export default function SimpleLayout({ children }: Props) {
   return (
-    <Container className="md:pt-16 md:scroll-pt-16">
-      {children}
-    </Container>
+    <Container className="pt-4 md:pt-20 md:scroll-pt-20">{children}</Container>
   )
 }
