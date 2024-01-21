@@ -5,11 +5,12 @@ import React, { useEffect, useState } from 'react'
 import Button from '@/components/common/Button'
 import { createAdvertAction } from './createAdvertAction'
 import CreateAdvertPreview from './CreateAdvertPreview'
-import TypeField from './AdvertTypeField'
-import TitleField from './AdvertTitleField'
-import DomainField from './AdvertDomainField'
+import BodyField from './AdvertBodyField'
 import DateField from './AdvertDateField'
 import DescriptionField from './AdvertDescriptionField'
+import DomainField from './AdvertDomainField'
+import TitleField from './AdvertTitleField'
+import TypeField from './AdvertTypeField'
 import FormStatusHandler from '../FormStatusHandler'
 import { useFormState } from 'react-dom'
 import useToast from '@/hooks/useToast'
@@ -60,6 +61,7 @@ export default function CreateAdvertForm() {
         <DomainField onChange={generateChangeHandler('domain')} />
         <DateField onChange={() => {}} />
         <DescriptionField onChange={generateChangeHandler('description')} />
+        <BodyField onChange={() => {}} />
 
         <Button
           className="self-end"
