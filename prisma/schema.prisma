@@ -45,7 +45,8 @@ model Advert {
   owner    User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   domain   RomeDomain         @relation(fields: [domainId], references: [id])
 
-  bookmarkedBy User[] @relation("bookmark")
+  bookmarkedBy  User[]               @relation("bookmark")
+  collaborators AdvertCollaborator[]
 
   @@map("advert")
 }
@@ -73,6 +74,28 @@ model AdvertColor {
 
   @@unique(name: "hsl_unique_key", [hue, saturation, lightness])
   @@map("advert_color")
+}
+
+model AdvertCollaborator {
+  advertId String
+  userId   String
+  roleId   Int
+
+  advert Advert                 @relation(fields: [advertId], references: [id], onDelete: Cascade)
+  user   User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   AdvertCollaboratorRole @relation(fields: [roleId], references: [id])
+
+  @@id([advertId, userId])
+  @@map("advert_collaborator")
+}
+
+model AdvertCollaboratorRole {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  collaborators AdvertCollaborator[]
+
+  @@map("advert_collaborator_role")
 }
 
 model ProfessionalBridge {
@@ -103,9 +126,10 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
 
-  accounts  Account[]
-  adverts   Advert[]
-  bookmarks Advert[]  @relation("bookmark")
+  accounts       Account[]
+  adverts        Advert[]
+  bookmarks      Advert[]             @relation("bookmark")
+  collaborations AdvertCollaborator[]
 
   @@map("user")
 }
