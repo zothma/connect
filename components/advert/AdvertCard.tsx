@@ -4,7 +4,7 @@ import AdvertBackground from './AdvertBackground'
 import AdvertBookmark from './AdvertBookmark'
 import AdvertDomain from './AdvertDomain'
 import AdvertCardSkeleton from './AdvertCardSkeleton'
-import AdvertOwnerBadge from './AdvertOwnerBadge'
+import AdvertCollaboratorsBadge from './AdvertCollaboratorsBadge'
 import AdvertTypeBadge from './AdvertTypeBadge'
 import styles from './advert-card.module.css'
 import { AdvertWithCompleteData } from '@/types/models'
@@ -19,13 +19,19 @@ type BookmarkProps = {
   onBookmark: (value: boolean) => void
 }
 
+type CollaboratorsProps = React.ComponentProps<typeof AdvertCollaboratorsBadge>
+type TypeProps = React.ComponentProps<typeof AdvertTypeBadge>
+type DomainProps = React.ComponentProps<typeof AdvertDomain>
+type BackgroundProps = React.ComponentProps<typeof AdvertBackground>
+
 type CardProps = {
   name: Advert['name']
   description: Advert['description']
-  type: React.ComponentProps<typeof AdvertTypeBadge>['type']
-  owner: React.ComponentProps<typeof AdvertOwnerBadge>['owner']
-  gradient: React.ComponentProps<typeof AdvertBackground>['gradient'] | null
-  domain: React.ComponentProps<typeof AdvertDomain>['domain']
+  type: TypeProps['type']
+  owner: CollaboratorsProps['owner']
+  gradient: BackgroundProps['gradient'] | null
+  domain: DomainProps['domain']
+  collaborators?: CollaboratorsProps['collaborators']
   className?: string
   disableActions?: boolean
 }
@@ -66,7 +72,10 @@ function Card(props: CardProps & BookmarkProps) {
           <p className="truncate-2">{props.description}</p>
         </div>
 
-        <AdvertOwnerBadge owner={props.owner} />
+        <AdvertCollaboratorsBadge
+          owner={props.owner}
+          collaborators={props.collaborators}
+        />
       </div>
     </AdvertBackground>
   )
@@ -83,6 +92,8 @@ export default function AdvertCard({
   disableActions = false,
   ...props
 }: Props & BookmarkProps) {
+  console.log(advert)
+
   return (
     <Card
       name={advert.name}
@@ -91,6 +102,7 @@ export default function AdvertCard({
       owner={advert.owner}
       gradient={advert.gradient}
       domain={advert.domain}
+      collaborators={advert.collaborators?.map((c) => c.user) ?? undefined}
       {...props}
     />
   )
@@ -117,6 +129,7 @@ export function DummyAdvertCard(props: DummyProps) {
         last_name: user.last_name ?? 'Nom',
         image: user.image ?? '#',
       }}
+      collaborators={props.collaborators}
       onBookmark={() => {}}
       bookmarked={false}
       className={props.className}

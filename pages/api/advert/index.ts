@@ -17,6 +17,12 @@ export default async function handler(
       domain: true,
       type: true,
       owner: true,
+      collaborators: {
+        include: {
+          user: true,
+          role: true,
+        },
+      },
       gradient: {
         include: {
           color: true,

@@ -5,6 +5,12 @@ const advertData = Prisma.validator<Prisma.AdvertDefaultArgs>()({
     domain: true,
     type: true,
     owner: true,
+    collaborators: {
+      include: {
+        role: true,
+        user: true,
+      },
+    },
     gradient: {
       include: {
         color: true,
