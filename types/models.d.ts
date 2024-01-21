@@ -5,6 +5,12 @@ const advertData = Prisma.validator<Prisma.AdvertDefaultArgs>()({
     domain: true,
     type: true,
     owner: true,
+    collaborators: {
+      include: {
+        role: true,
+        user: true,
+      },
+    },
     gradient: {
       include: {
         color: true,
@@ -35,3 +41,4 @@ export type AdvertGradientCoordinates = Prisma.AdvertGradientGetPayload<
 export type AdvertGradientWithColor = Prisma.AdvertGradientGetPayload<
   typeof advertGradientData
 >
+export type AdvertCollaboratorRoleNames = 'EDITOR' | 'VIEWER'

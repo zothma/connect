@@ -28,21 +28,25 @@ model Account {
 }
 
 model Advert {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
-  description String   @db.Text
+  description String    @db.Text
+  body        String    @default("") @db.Text
   domainId    Int
   typeId      Int
   ownerId     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
 
   gradient AdvertGradient?
   type     ProfessionalBridge @relation(fields: [typeId], references: [id])
   owner    User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   domain   RomeDomain         @relation(fields: [domainId], references: [id])
 
-  bookmarkedBy User[] @relation("bookmark")
+  bookmarkedBy  User[]               @relation("bookmark")
+  collaborators AdvertCollaborator[]
 
   @@map("advert")
 }
@@ -70,6 +74,28 @@ model AdvertColor {
 
   @@unique(name: "hsl_unique_key", [hue, saturation, lightness])
   @@map("advert_color")
+}
+
+model AdvertCollaborator {
+  advertId String
+  userId   String
+  roleId   Int
+
+  advert Advert                 @relation(fields: [advertId], references: [id], onDelete: Cascade)
+  user   User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   AdvertCollaboratorRole @relation(fields: [roleId], references: [id])
+
+  @@id([advertId, userId])
+  @@map("advert_collaborator")
+}
+
+model AdvertCollaboratorRole {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  collaborators AdvertCollaborator[]
+
+  @@map("advert_collaborator_role")
 }
 
 model ProfessionalBridge {
@@ -100,9 +126,10 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
 
-  accounts  Account[]
-  adverts   Advert[]
-  bookmarks Advert[]  @relation("bookmark")
+  accounts       Account[]
+  adverts        Advert[]
+  bookmarks      Advert[]             @relation("bookmark")
+  collaborations AdvertCollaborator[]
 
   @@map("user")
 }

@@ -1,8 +1,9 @@
 import { generateAllProfessionalBridges } from './seeds/professionalBridge'
 import { generateAllRomeDomains } from './seeds/romeDomain'
 import { generateAllAdvertColors } from './seeds/advertColor'
-import prisma from '../lib/prisma'
 import { generateAllUsers } from './seeds/user'
+import { generateAllCollaboratorRoles } from './seeds/advertCollaboratorRole'
+import prisma from '../lib/prisma'
 
 const dataStorage: { [key: string]: any[] } = {}
 
@@ -14,6 +15,7 @@ async function main() {
   dataStorage.professionalBridges = await generateAllProfessionalBridges()
   dataStorage.romeDomains = await generateAllRomeDomains()
   dataStorage.advertColors = await generateAllAdvertColors()
+  dataStorage.advertCollaboratorRoles = await generateAllCollaboratorRoles()
   dataStorage.users = await generateAllUsers()
 }
 

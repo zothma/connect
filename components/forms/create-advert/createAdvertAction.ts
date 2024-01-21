@@ -21,6 +21,9 @@ export async function createAdvertAction(
   // Extract data from form
   const title = formData.get('create_advert_title') as string
   const description = formData.get('create_advert_description') as string
+  const body = formData.get('create_advert_body') as string
+  const startDate = formData.get('create_advert_start_date') as string
+  const endDate = formData.get('create_advert_end_date') as string
   const domainId = formData.get('create_advert_domain') as string
   const typeId = formData.get('create_advert_type') as string
 
@@ -28,6 +31,9 @@ export async function createAdvertAction(
   const queryData: Prisma.AdvertCreateInput = {
     name: title,
     description,
+    body,
+    startDate: new Date(startDate),
+    endDate: new Date(endDate),
     owner: { connect: { email: user.email } },
     domain: { connect: { id: parseInt(domainId) } },
     type: { connect: { id: parseInt(typeId) } },
