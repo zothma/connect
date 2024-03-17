@@ -1,9 +1,11 @@
 import prisma from '../../lib/prisma'
-import { AdvertCollaboratorRoleNames } from '@/types/models'
+import { AdvertCollaboratorRoleName } from '@/types/models'
 
-const DATA: AdvertCollaboratorRoleNames[] = ['EDITOR', 'VIEWER']
+type Name = AdvertCollaboratorRoleName
 
-export function generateCollaboratorRole(name: AdvertCollaboratorRoleNames) {
+const DATA: Name[] = ['EDITOR', 'VIEWER']
+
+export function generateCollabRole(name: Name) {
   return prisma.advertCollaboratorRole.upsert({
     where: {
       name,
@@ -15,12 +17,10 @@ export function generateCollaboratorRole(name: AdvertCollaboratorRoleNames) {
   })
 }
 
-export function generateMultipleCollaboratorRoles(
-  names: AdvertCollaboratorRoleNames[]
-) {
-  return Promise.all(names.map(generateCollaboratorRole))
+export function generateMultipleCollabRoles(names: Name[]) {
+  return Promise.all(names.map(generateCollabRole))
 }
 
-export function generateAllCollaboratorRoles() {
-  return generateMultipleCollaboratorRoles(DATA)
+export function generateAllCollabRoles() {
+  return generateMultipleCollabRoles(DATA)
 }

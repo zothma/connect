@@ -1,22 +1,19 @@
+import { generateAllAdvertColors } from './seeds/advertColor'
+import { generateAllCollabRoles } from './seeds/advertCollaboratorRole'
 import { generateAllProfessionalBridges } from './seeds/professionalBridge'
 import { generateAllRomeDomains } from './seeds/romeDomain'
-import { generateAllAdvertColors } from './seeds/advertColor'
 import { generateAllUsers } from './seeds/user'
-import { generateAllCollaboratorRoles } from './seeds/advertCollaboratorRole'
 import prisma from '../lib/prisma'
 
-const dataStorage: { [key: string]: any[] } = {}
-
-export function getGeneratedData(key: string) {
-  return dataStorage[key] ?? []
-}
+const dataStorage = new Map<string, any[]>()
+dataStorage.get = (key) => dataStorage.get(key) ?? []
 
 async function main() {
-  dataStorage.professionalBridges = await generateAllProfessionalBridges()
-  dataStorage.romeDomains = await generateAllRomeDomains()
-  dataStorage.advertColors = await generateAllAdvertColors()
-  dataStorage.advertCollaboratorRoles = await generateAllCollaboratorRoles()
-  dataStorage.users = await generateAllUsers()
+  dataStorage.set('professionalBridges', await generateAllProfessionalBridges())
+  dataStorage.set('romeDomains', await generateAllRomeDomains())
+  dataStorage.set('advertColors', await generateAllAdvertColors())
+  dataStorage.set('advertCollaboratorRoles', await generateAllCollabRoles())
+  dataStorage.set('users', await generateAllUsers())
 }
 
 main()
